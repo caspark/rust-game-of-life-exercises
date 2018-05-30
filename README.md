@@ -103,7 +103,7 @@ Goal: learn about performance tuning by competing to see who can build the faste
 
 # TODO
 
-* Allow sim update steps to run as far as possible & without a graphics display (for benchmarking)
+* Allow sim update steps to run as fast as possible & without a graphics display (for benchmarking)
 * Write instructions for benchmarking
 * Put some sample RLE patterns into the repo, including the clock pattern
 * Cap sim update rate based on time elapsed rather than based on frame rate
