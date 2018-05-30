@@ -3,4 +3,7 @@ name = "game-of-life"
 version = "0.1.0"
 authors = ["Caspar Krieger <git@asparck.com>"]
 
-[dependencies]
+[dependencies.sdl2]
+version = "*"
+#default-features = false
+#features = ["bundled"]
