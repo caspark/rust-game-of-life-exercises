@@ -14,7 +14,7 @@ mod game_of_life {
     pub const PLAYGROUND_WIDTH: u32 = 49;
     pub const PLAYGROUND_HEIGHT: u32 = 40;
 
-    #[derive(Copy, Clone)]
+    #[derive(Copy, Clone, Eq, PartialEq)]
     pub enum State {
         Paused,
         Playing,
@@ -40,12 +40,12 @@ mod game_of_life {
             }
 
             GameOfLife {
-                playground: playground,
+                playground,
                 state: State::Paused,
             }
         }
 
-        pub fn get(&self, x: i32, y: i32) -> Option<bool> {
+        fn get(&self, x: i32, y: i32) -> Option<bool> {
             if x >= 0 && y >= 0 &&
                 (x as u32) < PLAYGROUND_WIDTH && (y as u32) < PLAYGROUND_HEIGHT {
                 Some(self.playground[(x as u32 + (y as u32)* PLAYGROUND_WIDTH) as usize])
@@ -217,7 +217,7 @@ pub fn main() {
     canvas.clear();
     // However the canvas has not been updated to the window yet, everything has been processed to
     // an internal buffer, but if we want our buffer to be displayed on the window, we need to call
-    // `present`. We need to call this everytime we want to render a new frame on the window.
+    // `present`. We need to call this every time we want to render a new frame on the window.
     canvas.present();
 
     // this struct manages textures. For lifetime reasons, the canvas cannot directly create
@@ -234,7 +234,7 @@ pub fn main() {
         // get the inputs here
         for event in event_pump.poll_iter() {
             match event {
-                Event::Quit {..} | Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
+                Event::Quit {..} | Event::KeyDown { keycode: Some(Keycode::Escape), .. } | Event::KeyDown { keycode: Some(Keycode::Q), .. } => {
                     break 'running
                 },
                 Event::KeyDown { keycode: Some(Keycode::Space), repeat: false, .. } => {
@@ -253,7 +253,7 @@ pub fn main() {
         }
 
         // update the game loop here
-        if frame >= 30 {
+        if frame >= 100 {
             game.update();
             frame = 0;
         }
@@ -262,7 +262,7 @@ pub fn main() {
         canvas.clear();
         for (i, unit) in (&game).into_iter().enumerate() {
             let i = i as u32;
-            let square_texture = if frame >= 15 {
+            let square_texture = if game.state() == game_of_life::State::Playing {
                 &square_texture1
             } else {
                 &square_texture2
