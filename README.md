@@ -41,6 +41,20 @@ You can also toggle the state of cells using the mouse's left click.
 
 Hit <kbd>Escape</kbd> or <kbd>Q</kbd> to quit.
 
+## Development tips
+
+Get faster type errors with `cargo check` (it skips actually building the resulting binary).
+
+Run tests with `cargo test`.
+
+Format your code with `cargo fmt`.
+
+You can also install the cargo-watch tool if you like continuous feedback in your terminal:
+
+    cargo install cargo-watch
+    cargo watch                         # continuously runs `cargo check`
+    cargo watch --exec test --exec fmt  # continuously runs `cargo test && cargo fmt`
+
 ## Exercises
 
 ### Step 1 - Get the simulation working
@@ -117,6 +131,8 @@ You can also find far more examples at http://www.conwaylife.com/wiki/Category:P
 
 Goal: learn about performance tuning by competing to see who can build the fastest implementation of the game of life update step.
 
+Rust by default builds & runs unoptimized debug code - pass the `--release` flag to Cargo for a 10-100x speedup.
+
 You can benchmark the official solution through a million game steps with:
 
     cargo build --release && time game-of-life bench solution
@@ -129,7 +145,6 @@ Try to get your real time elapsed for a run as low as possible.
 
 # TODO
 
-* Add cargo format and clippy + fix all resulting warnings
 * Put some sample RLE patterns into the repo, including the clock pattern
 * Cap sim update rate based on time elapsed rather than based on frame rate
 * Take snapshots of step 0, 1, 2 and save them as git branches

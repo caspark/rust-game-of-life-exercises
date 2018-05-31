@@ -1,13 +1,17 @@
+// declare dependencies (somewhat duplicated by Cargo's Crate.toml because the Rust compiler can be used without Cargo)
 extern crate sdl2;
 
+// declare the modules that the Rust compiler should look for
 mod bench;
 mod game_of_life;
 mod game_of_life_solution;
 mod ui;
 
+// import types and modules we want to use; note that `extern crate` and `mod` statements pre-import those crates/modules for this file too.
 use game_of_life::GameOfLife;
 use std::env;
 
+// define a few constants for our homegrown arg parsing
 const MODE_RENDER: &str = "render";
 const MODE_BENCH: &str = "bench";
 
@@ -65,7 +69,7 @@ pub fn main() {
     };
 
     if let Some(pattern_filename) = maybe_pattern_filename {
-        load_and_apply_pattern(&game, pattern_filename)
+        load_and_apply_pattern(game.as_ref(), pattern_filename)
     }
 
     match mode.as_str() {
@@ -79,7 +83,7 @@ pub fn main() {
 }
 
 #[allow(unused_variables)]
-fn load_and_apply_pattern(game: &Box<GameOfLife>, pattern_filename: &str) {
+fn load_and_apply_pattern(game: &GameOfLife, pattern_filename: &str) {
     //FIXME fill this out for the step 2 exercise :)
     unimplemented!("Pattern loading from file is not implemented yet!");
 }
