@@ -109,9 +109,13 @@ pub fn run_game(mut game: Box<GameOfLife>) {
                     mouse_btn: MouseButton::Left,
                     ..
                 } => {
-                    let x = (x as u32) / SQUARE_SIZE;
-                    let y = (y as u32) / SQUARE_SIZE;
-                    game.toggle_cell(x as i32, y as i32);
+                    let cell_x = (x as u32) / SQUARE_SIZE;
+                    let cell_y = (y as u32) / SQUARE_SIZE;
+                    println!(
+                        "Attempting to toggle cell at {}, {} due to mouse click at {}, {}",
+                        cell_x, cell_y, x, y
+                    );
+                    game.toggle_cell(cell_x as i32, cell_y as i32);
                 }
                 _ => {}
             }

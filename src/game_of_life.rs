@@ -37,7 +37,7 @@ impl GameOfLife for BrokenGame {
     }
 
     fn toggle_cell(&mut self, _x: i32, _y: i32) {
-        println!("Toggling the only cell we have");
+        // Toggle the only cell we have
         self.cell_state = !self.cell_state;
     }
 

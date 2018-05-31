@@ -55,7 +55,7 @@ pub fn main() {
     let sim = &actual_args[1];
     let maybe_pattern_filename = actual_args.get(2);
 
-    let game: Box<GameOfLife> = match sim.as_str() {
+    let mut game: Box<GameOfLife> = match sim.as_str() {
         SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new()),
         SIM_BROKEN => Box::new(game_of_life::BrokenGame::new()),
         SIM_MINE => {
@@ -69,7 +69,9 @@ pub fn main() {
     };
 
     if let Some(pattern_filename) = maybe_pattern_filename {
-        load_and_apply_pattern(game.as_ref(), pattern_filename)
+        load_and_apply_pattern(game.as_mut(), pattern_filename);
+    } else {
+        apply_default_pattern(game.as_mut());
     }
 
     match mode.as_str() {
@@ -83,7 +85,22 @@ pub fn main() {
 }
 
 #[allow(unused_variables)]
-fn load_and_apply_pattern(game: &GameOfLife, pattern_filename: &str) {
+fn load_and_apply_pattern(game: &mut GameOfLife, pattern_filename: &str) {
     //FIXME fill this out for the step 2 exercise :)
     unimplemented!("Pattern loading from file is not implemented yet!");
+}
+
+/// Loads a nice default pattern into the given game
+fn apply_default_pattern(game: &mut GameOfLife) {
+    use game_of_life::{PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH};
+
+    for x in 1..PLAYGROUND_WIDTH - 1 {
+        game.toggle_cell(x as i32, 1);
+        game.toggle_cell(x as i32, PLAYGROUND_HEIGHT as i32 - 2);
+    }
+
+    for y in 1..PLAYGROUND_HEIGHT - 1 {
+        game.toggle_cell(1, y as i32);
+        game.toggle_cell(PLAYGROUND_WIDTH as i32 - 2, y as i32);
+    }
 }

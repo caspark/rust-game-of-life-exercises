@@ -100,17 +100,7 @@ pub struct GameOfLifeSolution {
 
 impl GameOfLifeSolution {
     pub fn new() -> GameOfLifeSolution {
-        let mut playground = [false; (PLAYGROUND_WIDTH * PLAYGROUND_HEIGHT) as usize];
-
-        // let's make a nice default pattern!
-        for i in 1..(PLAYGROUND_HEIGHT - 1) {
-            playground[(1 + i * PLAYGROUND_WIDTH) as usize] = true;
-            playground[((PLAYGROUND_WIDTH - 2) + i * PLAYGROUND_WIDTH) as usize] = true;
-        }
-        for j in 2..(PLAYGROUND_WIDTH - 2) {
-            playground[(PLAYGROUND_WIDTH + j) as usize] = true;
-            playground[((PLAYGROUND_HEIGHT - 2) * PLAYGROUND_WIDTH + j) as usize] = true;
-        }
+        let playground = [false; (PLAYGROUND_WIDTH * PLAYGROUND_HEIGHT) as usize];
 
         GameOfLifeSolution { playground }
     }
@@ -135,7 +125,6 @@ impl GameOfLife for GameOfLifeSolution {
 
     fn toggle_cell(&mut self, x: i32, y: i32) {
         if let Some(square) = self.get_cell_mut(x as i32, y as i32) {
-            println!("Toggling cell at {}, {}", x, y);
             *square = !(*square);
         } else {
             eprintln!("Avoiding toggling cell at {}, {} - is out of bounds!", x, y);
