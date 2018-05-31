@@ -54,13 +54,19 @@ mod game_of_life {
             }
         }
 
-        pub fn get_mut(&mut self, x: i32, y: i32) -> Option<&mut bool> {
+        fn get_mut(&mut self, x: i32, y: i32) -> Option<&mut bool> {
             if x >= 0 && y >= 0 &&
                 (x as u32) < PLAYGROUND_WIDTH && (y as u32) < PLAYGROUND_HEIGHT {
                 Some(&mut self.playground[(x as u32 + (y as u32)* PLAYGROUND_WIDTH) as usize])
             } else {
                 None
             }
+        }
+
+        pub fn toggle_cell(&mut self, x: i32, y: i32) {
+            if let Some(square) = self.get_mut(x as i32, y as i32) {
+                *square = !(*square);
+            };
         }
 
         pub fn toggle_state(&mut self) {
@@ -243,10 +249,7 @@ pub fn main() {
                 Event::MouseButtonDown { x, y, mouse_btn: MouseButton::Left, .. } => {
                     let x = (x as u32) / SQUARE_SIZE;
                     let y = (y as u32) / SQUARE_SIZE;
-                    match game.get_mut(x as i32, y as i32) {
-                        Some(square) => {*square = !(*square);},
-                        None => {panic!()}
-                    };
+                    game.toggle_cell(x as i32, y as i32);
                 },
                 _ => {}
             }
