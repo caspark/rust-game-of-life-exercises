@@ -2,8 +2,7 @@
 //!
 //! You probably don't need to worry about it, unless you want to extend the UI with new behavior.
 
-use game_of_life;
-use game_of_life::{SQUARE_SIZE, PLAYGROUND_WIDTH, PLAYGROUND_HEIGHT};
+use game_of_life::{GameOfLife, SQUARE_SIZE, PLAYGROUND_WIDTH, PLAYGROUND_HEIGHT};
 use sdl2;
 use sdl2::rect::{Point, Rect};
 use sdl2::pixels::Color;
@@ -37,7 +36,7 @@ impl Simulation {
     }
 }
 
-pub fn run_game() {
+pub fn run_game(mut game: Box<GameOfLife>) {
     let mut sim = Simulation::new();
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -47,7 +46,7 @@ pub fn run_game() {
     // fullscreen, ... but you cannot change its content without using a Canvas or using the
     // `surface()` method.
     let window = video_subsystem
-        .window("rust-sdl2 demo: Game of Life",
+        .window("RustLife",
                 SQUARE_SIZE*PLAYGROUND_WIDTH,
                 SQUARE_SIZE*PLAYGROUND_HEIGHT)
         .position_centered()
@@ -75,7 +74,6 @@ pub fn run_game() {
     let texture_creator : TextureCreator<_> = canvas.texture_creator();
 
     let (playing_texture, paused_texture) = generate_textures(&mut canvas, &texture_creator);
-    let mut game = game_of_life::GameOfLife::new();
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut frame : u32 = 0;
@@ -100,28 +98,35 @@ pub fn run_game() {
 
         // update the game loop here
         if frame >= 100 {
-            game.update();
+            game.tick();
             frame = 0;
         }
 
         canvas.set_draw_color(Color::RGB(0, 0, 0));
         canvas.clear();
-        for (i, unit) in (&game).into_iter().enumerate() {
-            let i = i as u32;
-            let square_texture = if sim.state == SimulationState::Playing {
-                &playing_texture
-            } else {
-                &paused_texture
-            };
-            if *unit {
-                canvas.copy(square_texture,
-                            None,
-                            Rect::new(((i % PLAYGROUND_WIDTH) * SQUARE_SIZE) as i32,
-                                      ((i / PLAYGROUND_WIDTH) * SQUARE_SIZE) as i32,
-                                      SQUARE_SIZE,
-                                      SQUARE_SIZE)).unwrap();
+
+        let square_texture = if sim.state == SimulationState::Playing {
+            &playing_texture
+        } else {
+            &paused_texture
+        };
+        // there are more efficient ways to iterate over all cells, but the API used here is easiest
+        // to implement for people with little to no Rust experience, so we'll stick with this.
+        for x in 0..(PLAYGROUND_WIDTH) {
+            for y in 0..(PLAYGROUND_HEIGHT) {
+                match game.is_cell_alive(x as i32, y as i32) {
+                    Some(true) => canvas.copy(square_texture,
+                                              None,
+                                              Rect::new((x * SQUARE_SIZE) as i32,
+                                                        (y * SQUARE_SIZE) as i32,
+                                                        SQUARE_SIZE,
+                                                        SQUARE_SIZE)).unwrap(),
+                    Some(false) => (), // do nothing, empty canvas block is sufficient for a dead cell
+                    None => panic!("logic error in checking cell liveness! x={}, y={} and got no result", x, y),
+                }
             }
         }
+
         canvas.present();
         if sim.state == SimulationState::Playing {
             frame += 1;
