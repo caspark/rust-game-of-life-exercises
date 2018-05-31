@@ -2,7 +2,7 @@
 //!
 //! You probably don't need to worry about it, unless you want to extend the UI with new behavior.
 
-use game_of_life::{GameOfLife, PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH, SQUARE_SIZE};
+use game_of_life::{GameOfLife, PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH};
 use sdl2;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
@@ -11,6 +11,8 @@ use sdl2::pixels::Color;
 use sdl2::rect::{Point, Rect};
 use sdl2::render::{Canvas, Texture, TextureCreator};
 use sdl2::video::{Window, WindowContext};
+
+const SQUARE_SIZE: u32 = 16;
 
 #[derive(Copy, Clone, Eq, PartialEq)]
 pub enum SimulationState {

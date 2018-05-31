@@ -1,4 +1,3 @@
-pub const SQUARE_SIZE: u32 = 16;
 pub const PLAYGROUND_WIDTH: u32 = 49;
 pub const PLAYGROUND_HEIGHT: u32 = 40;
 
