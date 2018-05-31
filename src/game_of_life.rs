@@ -67,6 +67,7 @@ mod broken_game_test {
         // now we expect cell 0,0's liveness to have changed because we know that BrokenGame
         // is a totally broken implementation. If the two values are equal, then something seriously
         // weird is going on.
+        // Tip: `assert_ne!` means "assert not equal" - normally using `assert!` or `assert_eq!` is typical.
         assert_ne!(cell_0_0_orig_val, cell_0_0_new_val, "Uh oh, cell 0,0 failed to change from its \
         original value even though we tried to mutate another cell, so BrokenGame is may not be \
         broken anymore!?");
