@@ -2,7 +2,6 @@ pub const SQUARE_SIZE: u32 = 16;
 pub const PLAYGROUND_WIDTH: u32 = 49;
 pub const PLAYGROUND_HEIGHT: u32 = 40;
 
-
 pub trait GameOfLife {
     /// Return `Some(true)` if the cell is alive, `Some(false)` if it is dead, or `None` if `x`
     /// and/or `y` are out of bounds.
@@ -28,9 +27,7 @@ pub struct BrokenGame {
 
 impl BrokenGame {
     pub fn new() -> Self {
-        BrokenGame{
-            cell_state: true
-        }
+        BrokenGame { cell_state: true }
     }
 }
 
@@ -47,6 +44,9 @@ impl GameOfLife for BrokenGame {
     fn tick(&mut self) {
         self.cell_state = !self.cell_state;
 
-        println!("Broken game tick completed - cell_state is now {}", self.cell_state);
+        println!(
+            "Broken game tick completed - cell_state is now {}",
+            self.cell_state
+        );
     }
 }

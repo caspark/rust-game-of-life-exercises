@@ -92,12 +92,10 @@
 //! it's not optimized for speed.
 //!
 
-
-
 use game_of_life::{GameOfLife, PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH};
 
 pub struct GameOfLifeSolution {
-    playground: [bool; (PLAYGROUND_WIDTH*PLAYGROUND_HEIGHT) as usize],
+    playground: [bool; (PLAYGROUND_WIDTH * PLAYGROUND_HEIGHT) as usize],
 }
 
 impl GameOfLifeSolution {
@@ -105,24 +103,21 @@ impl GameOfLifeSolution {
         let mut playground = [false; (PLAYGROUND_WIDTH * PLAYGROUND_HEIGHT) as usize];
 
         // let's make a nice default pattern!
-        for i in 1..(PLAYGROUND_HEIGHT-1) {
-            playground[(1 + i* PLAYGROUND_WIDTH) as usize] = true;
-            playground[((PLAYGROUND_WIDTH-2) + i* PLAYGROUND_WIDTH) as usize] = true;
+        for i in 1..(PLAYGROUND_HEIGHT - 1) {
+            playground[(1 + i * PLAYGROUND_WIDTH) as usize] = true;
+            playground[((PLAYGROUND_WIDTH - 2) + i * PLAYGROUND_WIDTH) as usize] = true;
         }
-        for j in 2..(PLAYGROUND_WIDTH-2) {
+        for j in 2..(PLAYGROUND_WIDTH - 2) {
             playground[(PLAYGROUND_WIDTH + j) as usize] = true;
-            playground[((PLAYGROUND_HEIGHT-2)*PLAYGROUND_WIDTH + j) as usize] = true;
+            playground[((PLAYGROUND_HEIGHT - 2) * PLAYGROUND_WIDTH + j) as usize] = true;
         }
 
-        GameOfLifeSolution {
-            playground,
-        }
+        GameOfLifeSolution { playground }
     }
 
     fn get_cell_mut(&mut self, x: i32, y: i32) -> Option<&mut bool> {
-        if x >= 0 && y >= 0 &&
-            (x as u32) < PLAYGROUND_WIDTH && (y as u32) < PLAYGROUND_HEIGHT {
-            Some(&mut self.playground[(x as u32 + (y as u32)* PLAYGROUND_WIDTH) as usize])
+        if x >= 0 && y >= 0 && (x as u32) < PLAYGROUND_WIDTH && (y as u32) < PLAYGROUND_HEIGHT {
+            Some(&mut self.playground[(x as u32 + (y as u32) * PLAYGROUND_WIDTH) as usize])
         } else {
             None
         }
@@ -131,9 +126,8 @@ impl GameOfLifeSolution {
 
 impl GameOfLife for GameOfLifeSolution {
     fn is_cell_alive(&self, x: i32, y: i32) -> Option<bool> {
-        if x >= 0 && y >= 0 &&
-            (x as u32) < PLAYGROUND_WIDTH && (y as u32) < PLAYGROUND_HEIGHT {
-            Some(self.playground[(x as u32 + (y as u32)* PLAYGROUND_WIDTH) as usize])
+        if x >= 0 && y >= 0 && (x as u32) < PLAYGROUND_WIDTH && (y as u32) < PLAYGROUND_HEIGHT {
+            Some(self.playground[(x as u32 + (y as u32) * PLAYGROUND_WIDTH) as usize])
         } else {
             None
         }
@@ -154,12 +148,12 @@ impl GameOfLife for GameOfLifeSolution {
             let u = u as u32;
             let x = u % PLAYGROUND_WIDTH;
             let y = u / PLAYGROUND_WIDTH;
-            let mut count : u32 = 0;
+            let mut count: u32 = 0;
             for i in -1..2 {
                 for j in -1..2 {
                     if !(i == 0 && j == 0) {
-                        let peek_x : i32 = (x as i32) + i;
-                        let peek_y : i32 = (y as i32) + j;
+                        let peek_x: i32 = (x as i32) + i;
+                        let peek_y: i32 = (y as i32) + j;
                         if let Some(true) = self.is_cell_alive(peek_x, peek_y) {
                             count += 1;
                         }

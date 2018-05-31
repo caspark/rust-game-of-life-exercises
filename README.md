@@ -3,7 +3,15 @@ Game of Life Exercise
 
 An intro to Rust using Conway's Game of Life (heavily based on the SDL2 Game of Life example).
 
-## Setup
+## Install Rust
+
+    # install Rust by following the prompts
+    curl https://sh.rustup.rs -sSf | sh
+
+    # install the Rust Language Server (for IDE assistance), Rust code formatter, and the stdlib source 
+    rustup component add rls-preview rustfmt-preview rust-src
+
+## Repo Setup
 
 ### Ubuntu
 

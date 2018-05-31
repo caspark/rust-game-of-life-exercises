@@ -1,12 +1,12 @@
 extern crate sdl2;
 
-mod ui;
+mod bench;
 mod game_of_life;
 mod game_of_life_solution;
-mod bench;
+mod ui;
 
-use std::env;
 use game_of_life::GameOfLife;
+use std::env;
 
 const MODE_RENDER: &str = "render";
 const MODE_BENCH: &str = "bench";
@@ -29,14 +29,22 @@ pub fn main() {
 
     let available_modes = MODES.join(", ");
     let available_sims = SIMS.join(", ");
-    let usage = format!("Usage: {prog_name} MODE SIM [PATTERN_FILENAME]
+    let usage = format!(
+        "Usage: {prog_name} MODE SIM [PATTERN_FILENAME]
     \tMODE - One of the available modes: {modes}
     \tSIM - One of the available simulation implementations: {sims}
     \tPATTERN_FILENAME- Filename to load as a starting pattern",
-                        prog_name=prog_name, modes= available_modes, sims= available_sims);
+        prog_name = prog_name,
+        modes = available_modes,
+        sims = available_sims
+    );
 
     if ![2, 3].contains(&actual_args.len()) {
-        panic!("Invalid number of args - expected 2-3, got {}\n{}", actual_args.len(), usage);
+        panic!(
+            "Invalid number of args - expected 2-3, got {}\n{}",
+            actual_args.len(),
+            usage
+        );
     }
 
     let mode = &actual_args[0];
@@ -44,13 +52,16 @@ pub fn main() {
     let maybe_pattern_filename = actual_args.get(2);
 
     let game: Box<GameOfLife> = match sim.as_str() {
-        SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new()) ,
+        SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new()),
         SIM_BROKEN => Box::new(game_of_life::BrokenGame::new()),
         SIM_MINE => {
             //FIXME reference your implementation here for the step 1 exercise :)
             unimplemented!("The {} simulation is not yet implemented!", SIM_MINE);
-        },
-        other => panic!("Bad sim {}, expected one of {}\n{}", other, available_sims, usage)
+        }
+        other => panic!(
+            "Bad sim {}, expected one of {}\n{}",
+            other, available_sims, usage
+        ),
     };
 
     if let Some(pattern_filename) = maybe_pattern_filename {
@@ -60,7 +71,10 @@ pub fn main() {
     match mode.as_str() {
         MODE_RENDER => ui::run_game(game),
         MODE_BENCH => bench::run_bench(game, BENCHMARK_STEPS),
-        other => panic!("Bad mode {}, expected one of {}\n{}", other, available_sims, usage)
+        other => panic!(
+            "Bad mode {}, expected one of {}\n{}",
+            other, available_sims, usage
+        ),
     };
 }
 
