@@ -35,11 +35,11 @@ impl BrokenGame {
 }
 
 impl GameOfLife for BrokenGame {
-    fn is_cell_alive(&self, x: i32, y: i32) -> Option<bool> {
+    fn is_cell_alive(&self, _x: i32, _y: i32) -> Option<bool> {
         Some(self.cell_state)
     }
 
-    fn toggle_cell(&mut self, x: i32, y: i32) {
+    fn toggle_cell(&mut self, _x: i32, _y: i32) {
         println!("Toggling the only cell we have");
         self.cell_state = !self.cell_state;
     }

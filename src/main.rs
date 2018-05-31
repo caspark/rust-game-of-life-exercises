@@ -64,6 +64,7 @@ pub fn main() {
     };
 }
 
+#[allow(unused_variables)]
 fn load_and_apply_pattern(game: &Box<GameOfLife>, pattern_filename: &str) {
     //FIXME fill this out for the step 2 exercise :)
     unimplemented!("Pattern loading from file is not implemented yet!");
