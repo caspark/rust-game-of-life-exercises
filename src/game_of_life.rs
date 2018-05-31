@@ -50,3 +50,25 @@ impl GameOfLife for BrokenGame {
         );
     }
 }
+
+#[cfg(test)]
+mod broken_game_test {
+    use super::{BrokenGame, GameOfLife};
+
+    #[test]
+    fn broken_game_is_definitely_broken() {
+        let mut game = BrokenGame::new();
+        let cell_0_0_orig_val = game.is_cell_alive(0, 0 );
+
+        // change a totally different cell from 0,0
+        game.toggle_cell(1, 1);
+
+        let cell_0_0_new_val = game.is_cell_alive(0, 0);
+        // now we expect cell 0,0's liveness to have changed because we know that BrokenGame
+        // is a totally broken implementation. If the two values are equal, then something seriously
+        // weird is going on.
+        assert_ne!(cell_0_0_orig_val, cell_0_0_new_val, "Uh oh, cell 0,0 failed to change from its \
+        original value even though we tried to mutate another cell, so BrokenGame is may not be \
+        broken anymore!?");
+    }
+}
