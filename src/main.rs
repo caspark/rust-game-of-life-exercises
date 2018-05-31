@@ -3,6 +3,7 @@ extern crate sdl2;
 mod ui;
 mod game_of_life;
 mod game_of_life_solution;
+mod bench;
 
 use std::env;
 use game_of_life::GameOfLife;
@@ -17,11 +18,15 @@ const SIM_MINE: &str = "mine";
 const MODES: [&str; 2] = [MODE_BENCH, MODE_RENDER];
 const SIMS: [&str; 3] = [SIM_SOLUTION, SIM_BROKEN, SIM_MINE];
 
+/// When running a benchmark, how many Game of Life iterations should we run though?
+const BENCHMARK_STEPS: u32 = 1_000_000;
+
 pub fn main() {
     // Rust has a few nice arg parsing libraries (e.g. clap and docopt-rs) but this is simpler and
     // also shows off some Rust syntax around string formatting, so we'll roll our own for now.
     let args: Vec<String> = env::args().collect();
     let (prog_name, actual_args) = args.split_first().expect("will always have at least 1 arg");
+
     let available_modes = MODES.join(", ");
     let available_sims = SIMS.join(", ");
     let usage = format!("Usage: {prog_name} MODE SIM [PATTERN_FILENAME]
@@ -54,7 +59,7 @@ pub fn main() {
 
     match mode.as_str() {
         MODE_RENDER => ui::run_game(game),
-        MODE_BENCH => unimplemented!("benchmark is not yet implemented"),
+        MODE_BENCH => bench::run_bench(game, BENCHMARK_STEPS),
         other => panic!("Bad mode {}, expected one of {}\n{}", other, available_sims, usage)
     };
 }

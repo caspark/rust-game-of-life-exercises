@@ -25,7 +25,7 @@ Then set up the header locations by adding `/usr/local/lib` to your path:
 
 Run the simulation with
 
-    cargo run
+    cargo run -- render solution
 
 then hit <kbd>Space</kbd> to pause/unpause.
 
@@ -39,12 +39,22 @@ Hit <kbd>Escape</kbd> or <kbd>Q</kbd> to quit.
 
 Goal: get started with Rust by implementing the game logic rules for Conway's Game of Life.
 
-Each game tick should cause the following behavior:
+When you run
+
+    cargo run -- render mine
+
+then each game tick should cause the following behavior:
 
 * Any live cell with fewer than two live neighbors dies, as if by under population.
 * Any live cell with two or three live neighbors lives on to the next generation.
 * Any live cell with more than three live neighbors dies, as if by overpopulation.
 * Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+
+To get you started, there's a broken implementation of Game of Life which you can run with:
+
+    cargo run -- render broken
+
+Look at `main.rs` and `game_of_life.rs`, to see how to implement and wire up your own implementation of the `GameOfLife` trait.
 
 ### Step 2 - Implement loading patterns from files
 
@@ -99,12 +109,19 @@ You can also find far more examples at http://www.conwaylife.com/wiki/Category:P
 
 Goal: learn about performance tuning by competing to see who can build the fastest implementation of the game of life update step.
 
-*This story is yet to be written.*
+You can benchmark the official solution through a million game steps with:
+
+    cargo build --release && time game-of-life bench solution
+
+or bench your solution for the same with
+
+    time cargo run --release -- bench mine
+
+Try to get your real time elapsed for a run as low as possible.
 
 # TODO
 
-* Allow sim update steps to run as fast as possible & without a graphics display (for benchmarking)
-* Write instructions for benchmarking
+* Add cargo format and clippy + fix all resulting warnings
 * Put some sample RLE patterns into the repo, including the clock pattern
 * Cap sim update rate based on time elapsed rather than based on frame rate
 * Take snapshots of step 0, 1, 2 and save them as git branches

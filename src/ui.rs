@@ -1,4 +1,4 @@
-//! This module contains logic for rendering a Game of Life simulation using SDL2
+//! This module contains logic for rendering a Game of Life simulation using SDL2.
 //!
 //! You probably don't need to worry about it, unless you want to extend the UI with new behavior.
 
