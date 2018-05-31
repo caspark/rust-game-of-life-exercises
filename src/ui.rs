@@ -13,7 +13,32 @@ use sdl2::keyboard::Keycode;
 use sdl2::video::{Window, WindowContext};
 use sdl2::render::{Canvas, Texture, TextureCreator};
 
+#[derive(Copy, Clone, Eq, PartialEq)]
+pub enum SimulationState {
+    Paused,
+    Playing,
+}
+
+#[derive(Copy, Clone, Eq, PartialEq)]
+pub struct Simulation {
+    state: SimulationState,
+}
+
+impl Simulation {
+    fn new() -> Simulation {
+        Simulation { state: SimulationState::Paused }
+    }
+
+    fn toggle_state(&mut self) {
+        self.state = match self.state {
+            SimulationState::Paused => SimulationState::Playing,
+            SimulationState::Playing => SimulationState::Paused,
+        }
+    }
+}
+
 pub fn run_game() {
+    let mut sim = Simulation::new();
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
 
@@ -63,7 +88,7 @@ pub fn run_game() {
                     break 'running
                 },
                 Event::KeyDown { keycode: Some(Keycode::Space), repeat: false, .. } => {
-                    game.toggle_state();
+                    sim.toggle_state();
                 },
                 Event::MouseButtonDown { x, y, mouse_btn: MouseButton::Left, .. } => {
                     let x = (x as u32) / SQUARE_SIZE;
@@ -84,7 +109,7 @@ pub fn run_game() {
         canvas.clear();
         for (i, unit) in (&game).into_iter().enumerate() {
             let i = i as u32;
-            let square_texture = if game.state() == game_of_life::State::Playing {
+            let square_texture = if sim.state == SimulationState::Playing {
                 &square_texture1
             } else {
                 &square_texture2
@@ -99,7 +124,7 @@ pub fn run_game() {
             }
         }
         canvas.present();
-        if let game_of_life::State::Playing = game.state() {
+        if sim.state == SimulationState::Playing {
             frame += 1;
         };
     }

@@ -2,15 +2,9 @@ pub const SQUARE_SIZE: u32 = 16;
 pub const PLAYGROUND_WIDTH: u32 = 49;
 pub const PLAYGROUND_HEIGHT: u32 = 40;
 
-#[derive(Copy, Clone, Eq, PartialEq)]
-pub enum State {
-    Paused,
-    Playing,
-}
 
 pub struct GameOfLife {
     playground: [bool; (PLAYGROUND_WIDTH*PLAYGROUND_HEIGHT) as usize],
-    state: State,
 }
 
 impl GameOfLife {
@@ -29,7 +23,6 @@ impl GameOfLife {
 
         GameOfLife {
             playground,
-            state: State::Paused,
         }
     }
 
@@ -55,17 +48,6 @@ impl GameOfLife {
         if let Some(square) = self.get_mut(x as i32, y as i32) {
             *square = !(*square);
         };
-    }
-
-    pub fn toggle_state(&mut self) {
-        self.state = match self.state {
-            State::Paused => State::Playing,
-            State::Playing => State::Paused,
-        }
-    }
-
-    pub fn state(&self) -> State {
-        self.state
     }
 
     pub fn update(&mut self) {
