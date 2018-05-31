@@ -123,7 +123,7 @@ You can benchmark the official solution through a million game steps with:
 
 or bench your solution for the same with
 
-    time cargo run --release -- bench mine
+    cargo build --release && time game-of-life bench mine
 
 Try to get your real time elapsed for a run as low as possible.
 
