@@ -147,4 +147,3 @@ Try to get your real time elapsed for a run as low as possible.
 
 * Put some sample RLE patterns into the repo, including the clock pattern
 * Cap sim update rate based on time elapsed rather than based on frame rate
-* Take snapshots of step 0, 1, 2 and save them as git branches
