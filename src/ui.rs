@@ -74,8 +74,7 @@ pub fn run_game() {
     // textures, you have to create a `TextureCreator` instead.
     let texture_creator : TextureCreator<_> = canvas.texture_creator();
 
-    // Create a "target" texture so that we can use our Renderer with it later
-    let (square_texture1, square_texture2) = dummy_texture(&mut canvas, &texture_creator);
+    let (playing_texture, paused_texture) = generate_textures(&mut canvas, &texture_creator);
     let mut game = game_of_life::GameOfLife::new();
 
     let mut event_pump = sdl_context.event_pump().unwrap();
@@ -110,9 +109,9 @@ pub fn run_game() {
         for (i, unit) in (&game).into_iter().enumerate() {
             let i = i as u32;
             let square_texture = if sim.state == SimulationState::Playing {
-                &square_texture1
+                &playing_texture
             } else {
-                &square_texture2
+                &paused_texture
             };
             if *unit {
                 canvas.copy(square_texture,
@@ -130,7 +129,7 @@ pub fn run_game() {
     }
 }
 
-fn dummy_texture<'a>(canvas: &mut Canvas<Window>, texture_creator: &'a TextureCreator<WindowContext>) -> (Texture<'a>, Texture<'a>) {
+fn generate_textures<'a>(canvas: &mut Canvas<Window>, texture_creator: &'a TextureCreator<WindowContext>) -> (Texture<'a>, Texture<'a>) {
     enum TextureColor {
         Yellow,
         White,
