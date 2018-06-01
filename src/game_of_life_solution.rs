@@ -92,22 +92,25 @@
 //! it's not optimized for speed.
 //!
 
-use game_of_life::{GameOfLife, PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH};
+use game_of_life::{GameOfLife};
 
 pub struct GameOfLifeSolution {
-    playground: [bool; (PLAYGROUND_WIDTH * PLAYGROUND_HEIGHT) as usize],
+    width: u32,
+    playground: Vec<bool>,
 }
 
 impl GameOfLifeSolution {
-    pub fn new() -> GameOfLifeSolution {
-        let playground = [false; (PLAYGROUND_WIDTH * PLAYGROUND_HEIGHT) as usize];
+    pub fn new(width: u32, height: u32) -> GameOfLifeSolution {
+        println!("width is {} and height is {}", width, height);
+        let mut playground = Vec::new();
+        playground.extend(::std::iter::repeat(false).take((width * height) as usize));
 
-        GameOfLifeSolution { playground }
+        GameOfLifeSolution { width, playground }
     }
 
     fn get_cell_mut(&mut self, x: i32, y: i32) -> Option<&mut bool> {
-        if x >= 0 && y >= 0 && (x as u32) < PLAYGROUND_WIDTH && (y as u32) < PLAYGROUND_HEIGHT {
-            Some(&mut self.playground[(x as u32 + (y as u32) * PLAYGROUND_WIDTH) as usize])
+        if x >= 0 && y >= 0 && (x as u32) < self.width() && (y as u32) < self.height() {
+            Some(&mut self.playground[(x as u32 + (y as u32) * self.width) as usize])
         } else {
             None
         }
@@ -116,8 +119,8 @@ impl GameOfLifeSolution {
 
 impl GameOfLife for GameOfLifeSolution {
     fn is_cell_alive(&self, x: i32, y: i32) -> Option<bool> {
-        if x >= 0 && y >= 0 && (x as u32) < PLAYGROUND_WIDTH && (y as u32) < PLAYGROUND_HEIGHT {
-            Some(self.playground[(x as u32 + (y as u32) * PLAYGROUND_WIDTH) as usize])
+        if x >= 0 && y >= 0 && (x as u32) < self.width() && (y as u32) < self.height() {
+            Some(self.playground[(x as u32 + (y as u32) * self.width) as usize])
         } else {
             None
         }
@@ -132,11 +135,11 @@ impl GameOfLife for GameOfLifeSolution {
     }
 
     fn tick(&mut self) {
-        let mut new_playground = self.playground;
+        let mut new_playground = self.playground.clone();
         for (u, square) in new_playground.iter_mut().enumerate() {
             let u = u as u32;
-            let x = u % PLAYGROUND_WIDTH;
-            let y = u / PLAYGROUND_WIDTH;
+            let x = u % self.width();
+            let y = u / self.width();
             let mut count: u32 = 0;
             for i in -1..2 {
                 for j in -1..2 {
@@ -158,5 +161,13 @@ impl GameOfLife for GameOfLifeSolution {
             }
         }
         self.playground = new_playground;
+    }
+
+    fn width(&self) -> u32 {
+        self.width
+    }
+
+    fn height(&self) -> u32 {
+        self.playground.len() as u32 / self.width
     }
 }

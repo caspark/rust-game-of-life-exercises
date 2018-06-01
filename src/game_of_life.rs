@@ -1,7 +1,5 @@
-pub const PLAYGROUND_WIDTH: u32 = 49;
-pub const PLAYGROUND_HEIGHT: u32 = 40;
-
 pub trait GameOfLife {
+
     /// Return `Some(true)` if the cell is alive, `Some(false)` if it is dead, or `None` if `x`
     /// and/or `y` are out of bounds.
     fn is_cell_alive(&self, x: i32, y: i32) -> Option<bool>;
@@ -17,6 +15,12 @@ pub trait GameOfLife {
     /// Execute one timestep; i.e. cause cells to live, be born, or die based on the amount of
     /// neighbors they have.
     fn tick(&mut self);
+
+    /// Return the current width in cells of the game.
+    fn width(&self) -> u32;
+
+    /// Return the current height in cells of the game.
+    fn height(&self) -> u32;
 }
 
 /// A blatantly-wrong implementation of GameOfLife, to show the syntax for implementing traits.
@@ -47,6 +51,14 @@ impl GameOfLife for BrokenGame {
             "Broken game tick completed - cell_state is now {}",
             self.cell_state
         );
+    }
+
+    fn width(&self) -> u32 {
+        49 // broken implementation always lies about the width
+    }
+
+    fn height(&self) -> u32 {
+        40 // broken implementation always lies about the height
     }
 }
 

@@ -4,7 +4,7 @@
 //!
 //! But you probably don't need to change it, unless you want to extend the UI with new behavior.
 
-use game_of_life::{GameOfLife, PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH};
+use game_of_life::GameOfLife;
 use sdl2;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
@@ -52,8 +52,8 @@ pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
     let window = video_subsystem
         .window(
             "RustLife",
-            options.square_size * PLAYGROUND_WIDTH,
-            options.square_size * PLAYGROUND_HEIGHT,
+            options.square_size * game.width(),
+            options.square_size * game.height(),
         )
         .position_centered()
         .build()
@@ -146,8 +146,8 @@ pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
         };
         // there are more efficient ways to iterate over all cells, but the API used here is easiest
         // to implement for people with little to no Rust experience, so we'll stick with this.
-        for x in 0..(PLAYGROUND_WIDTH) {
-            for y in 0..(PLAYGROUND_HEIGHT) {
+        for x in 0..(game.width()) {
+            for y in 0..(game.height()) {
                 match game.is_cell_alive(x as i32, y as i32) {
                     Some(true) => canvas
                         .copy(

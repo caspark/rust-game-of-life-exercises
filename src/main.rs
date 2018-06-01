@@ -55,8 +55,12 @@ pub fn main() {
     let sim = &actual_args[1];
     let maybe_pattern_filename = actual_args.get(2);
 
+    // 49x40 happen to make a neat pattern when passed to `apply_default_pattern`.
+    // You might want to tweak this or make it non-hardcoded for loading larger pattern files (in the step 2 exercise).
+    let (game_width, game_height) = (49, 40);
+
     let mut game: Box<GameOfLife> = match sim.as_str() {
-        SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new()),
+        SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new(game_width, game_height)),
         SIM_BROKEN => Box::new(game_of_life::BrokenGame::new()),
         SIM_MINE => {
             //FIXME reference your implementation here for the step 1 exercise :)
@@ -98,15 +102,17 @@ fn load_and_apply_pattern(game: &mut GameOfLife, pattern_filename: &str) {
 
 /// Loads a nice default pattern into the given game
 fn apply_default_pattern(game: &mut GameOfLife) {
-    use game_of_life::{PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH};
+    // borrows to work around a borrow checker limitation (non-lexical lifetimes can't come soon enough..)
+    let game_width = game.width();
+    let game_height = game.height();
 
-    for x in 1..PLAYGROUND_WIDTH - 1 {
+    for x in 1..game_width - 1 {
         game.toggle_cell(x as i32, 1);
-        game.toggle_cell(x as i32, PLAYGROUND_HEIGHT as i32 - 2);
+        game.toggle_cell(x as i32, game_height as i32 - 2);
     }
 
-    for y in 1..PLAYGROUND_HEIGHT - 1 {
+    for y in 1..game_height - 1 {
         game.toggle_cell(1, y as i32);
-        game.toggle_cell(PLAYGROUND_WIDTH as i32 - 2, y as i32);
+        game.toggle_cell(game_width as i32 - 2, y as i32);
     }
 }
