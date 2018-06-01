@@ -112,20 +112,11 @@ x = 3, y = 3
 bo$2bo$3o!
 ```
 
-And a larger sample:
+This pattern file is at `patterns/gosper-glider-gun.txt`, and there are more patterns in the same directory.
 
-```
-#N Gosper glider gun
-#C This was the first gun discovered.
-#C As its name suggests, it was discovered by Bill Gosper.
-x = 36, y = 9, rule = B3/S23
-24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b
-obo$10bo5bo7bo$11bo3bo$12b2o!
-```
+More info on the file format is at http://www.conwaylife.com/w/index.php?title=Run_Length_Encoded
 
-More info at http://www.conwaylife.com/w/index.php?title=Run_Length_Encoded
-
-You can also find far more examples at http://www.conwaylife.com/wiki/Category:Patterns
+You can also find far more patterns at http://www.conwaylife.com/wiki/Category:Patterns
 
 ### Step 3 - Performance tuning
 
@@ -142,7 +133,3 @@ or bench your solution for the same with
     cargo build --release && time game-of-life bench mine
 
 Try to get your real time elapsed for a run as low as possible.
-
-# TODO
-
-* Put some sample RLE patterns into the repo, including the clock pattern
