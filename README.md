@@ -3,7 +3,8 @@ Game of Life Exercise
 
 An intro to Rust using Conway's Game of Life (heavily based on the SDL2 Game of Life example).
 
-## Install Rust
+Install Rust
+------------
 
     # install Rust by following the prompts
     curl https://sh.rustup.rs -sSf | sh
@@ -11,13 +12,19 @@ An intro to Rust using Conway's Game of Life (heavily based on the SDL2 Game of 
     # install the Rust Language Server (for IDE assistance), Rust code formatter, and the stdlib source 
     rustup component add rls-preview rustfmt-preview rust-src
 
-## Repo Setup
+If you want IDE support:
+
+* IntelliJ IDEA (community edition) w/ the JetBrains Rust plugin is the best experience as of 2018 June.
+* VSCode's Rust mode is a close second: https://github.com/editor-rs/vscode-rust
+
+Repo Setup
+----------
 
 ### Ubuntu
 
-```
-sudo apt install libsdl2-dev
-```
+Get some SDL onto your box:
+
+    sudo apt install libsdl2-dev
 
 ### MacOS
 
@@ -25,11 +32,12 @@ Install SDL2 via HomeBrew:
 
     brew install sdl2
 
-Then set up the header locations by adding `/usr/local/lib` to your path:
+Then set up the header locations by adding `/usr/local/lib` to your path (you can skip this if it's already in your path):
 
     echo 'export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"' >> ~/.bash_profile
 
-## Running
+Running
+-------
 
 Run the simulation with
 
@@ -41,7 +49,8 @@ You can also toggle the state of cells using the mouse's left click.
 
 Hit <kbd>Escape</kbd> or <kbd>Q</kbd> to quit.
 
-## Development tips
+Development tips
+----------------
 
 Get faster type errors with `cargo check` (it skips actually building the resulting binary).
 
@@ -55,7 +64,8 @@ You can also install the cargo-watch tool if you like continuous feedback in you
     cargo watch                         # continuously runs `cargo check`
     cargo watch --exec test --exec fmt  # continuously runs `cargo test && cargo fmt`
 
-## Exercises
+Exercises
+---------
 
 ### Step 1 - Get the simulation working
 
