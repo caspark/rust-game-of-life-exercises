@@ -57,7 +57,7 @@ mod broken_game_test {
     #[test]
     fn broken_game_is_definitely_broken() {
         let mut game = BrokenGame::new();
-        let cell_0_0_orig_val = game.is_cell_alive(0, 0 );
+        let cell_0_0_orig_val = game.is_cell_alive(0, 0);
 
         // change a totally different cell from 0,0
         game.toggle_cell(1, 1);

@@ -75,7 +75,13 @@ pub fn main() {
     }
 
     match mode.as_str() {
-        MODE_RENDER => ui::run_game(game),
+        MODE_RENDER => {
+            ui::run_game(game, &ui::UiOptions {
+                // you can change these parameters if you like - UiOptions docs explain each param
+                millis_between_ticks: 500,
+                square_size: 16,
+            })
+        }
         MODE_BENCH => bench::run_bench(game, BENCHMARK_STEPS),
         other => panic!(
             "Bad mode {}, expected one of {}\n{}",

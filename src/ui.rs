@@ -1,6 +1,8 @@
 //! This module contains logic for rendering a Game of Life simulation using SDL2.
 //!
-//! You probably don't need to worry about it, unless you want to extend the UI with new behavior.
+//! You're welcome to read it to learn more Rust syntax or style - there are no spoilers here.
+//!
+//! But you probably don't need to change it, unless you want to extend the UI with new behavior.
 
 use game_of_life::{GameOfLife, PLAYGROUND_HEIGHT, PLAYGROUND_WIDTH};
 use sdl2;
@@ -11,36 +13,34 @@ use sdl2::pixels::Color;
 use sdl2::rect::{Point, Rect};
 use sdl2::render::{Canvas, Texture, TextureCreator};
 use sdl2::video::{Window, WindowContext};
+use std::time::{Duration, SystemTime};
 
-const SQUARE_SIZE: u32 = 16;
+/// Configuration settings for the UI.
+///
+/// You should instantiate this struct directly and pass it to `run_game` - no builder pattern required.
+pub struct UiOptions {
+    /// How many milliseconds should elapse before we update the game.
+    /// E.g. set to 500 to update twice a second, or set to 0 to update each frame.
+    pub millis_between_ticks: u64,
 
-#[derive(Copy, Clone, Eq, PartialEq)]
-pub enum SimulationState {
-    Paused,
-    Playing,
+    /// How wide/high each cell in the game of life display should be, in pixels.
+    ///
+    /// Should be a power of 2; 8 or 16 are suitable for small to medium patterns.
+    /// Options lower than 4 will result in rendering artifacts, so that's disallowed.
+    pub square_size: u32,
 }
 
-#[derive(Copy, Clone, Eq, PartialEq)]
-pub struct Simulation {
-    state: SimulationState,
-}
-
-impl Simulation {
-    fn new() -> Simulation {
-        Simulation {
-            state: SimulationState::Paused,
-        }
-    }
-
-    fn toggle_state(&mut self) {
-        self.state = match self.state {
-            SimulationState::Paused => SimulationState::Playing,
-            SimulationState::Playing => SimulationState::Paused,
-        }
+impl UiOptions {
+    fn ready_for_next_tick(&self, time_since_last_tick: Duration) -> bool {
+        let elapsed_ms = time_since_last_tick.as_secs() * 1_000
+            + time_since_last_tick.subsec_nanos() as u64 / 1_000_000;
+        elapsed_ms >= self.millis_between_ticks
     }
 }
 
-pub fn run_game(mut game: Box<GameOfLife>) {
+pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
+    assert!(options.square_size >= 4, "UI's configured square_size should be at least 4");
+
     let mut sim = Simulation::new();
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -52,8 +52,8 @@ pub fn run_game(mut game: Box<GameOfLife>) {
     let window = video_subsystem
         .window(
             "RustLife",
-            SQUARE_SIZE * PLAYGROUND_WIDTH,
-            SQUARE_SIZE * PLAYGROUND_HEIGHT,
+            options.square_size * PLAYGROUND_WIDTH,
+            options.square_size * PLAYGROUND_HEIGHT,
         )
         .position_centered()
         .build()
@@ -81,10 +81,10 @@ pub fn run_game(mut game: Box<GameOfLife>) {
     // textures, you have to create a `TextureCreator` instead.
     let texture_creator: TextureCreator<_> = canvas.texture_creator();
 
-    let (playing_texture, paused_texture) = generate_textures(&mut canvas, &texture_creator);
+    let (playing_texture, paused_texture) = generate_textures(&mut canvas, &texture_creator, options.square_size);
 
     let mut event_pump = sdl_context.event_pump().unwrap();
-    let mut frame: u32 = 0;
+    let mut last_tick_time = SystemTime::now();
     'running: loop {
         // get the inputs here
         for event in event_pump.poll_iter() {
@@ -111,8 +111,8 @@ pub fn run_game(mut game: Box<GameOfLife>) {
                     mouse_btn: MouseButton::Left,
                     ..
                 } => {
-                    let cell_x = (x as u32) / SQUARE_SIZE;
-                    let cell_y = (y as u32) / SQUARE_SIZE;
+                    let cell_x = (x as u32) / options.square_size;
+                    let cell_y = (y as u32) / options.square_size;
                     println!(
                         "Attempting to toggle cell at {}, {} due to mouse click at {}, {}",
                         cell_x, cell_y, x, y
@@ -124,9 +124,16 @@ pub fn run_game(mut game: Box<GameOfLife>) {
         }
 
         // update the game loop here
-        if frame >= 100 {
-            game.tick();
-            frame = 0;
+        if sim.state == SimulationState::Playing {
+            match last_tick_time.elapsed() {
+                Ok(duration) if options.ready_for_next_tick(duration) => {
+                    game.tick();
+                    last_tick_time = SystemTime::now();
+                }
+                _ => {
+                    // clock drift or not enough time has elapsed since last tick - do nothing yet
+                }
+            }
         }
 
         canvas.set_draw_color(Color::RGB(0, 0, 0));
@@ -147,10 +154,10 @@ pub fn run_game(mut game: Box<GameOfLife>) {
                             square_texture,
                             None,
                             Rect::new(
-                                (x * SQUARE_SIZE) as i32,
-                                (y * SQUARE_SIZE) as i32,
-                                SQUARE_SIZE,
-                                SQUARE_SIZE,
+                                (x * options.square_size) as i32,
+                                (y * options.square_size) as i32,
+                                options.square_size,
+                                options.square_size,
                             ),
                         )
                         .unwrap(),
@@ -164,25 +171,49 @@ pub fn run_game(mut game: Box<GameOfLife>) {
         }
 
         canvas.present();
-        if sim.state == SimulationState::Playing {
-            frame += 1;
-        };
+    }
+}
+
+#[derive(Copy, Clone, Eq, PartialEq)]
+enum SimulationState {
+    Paused,
+    Playing,
+}
+
+#[derive(Copy, Clone, Eq, PartialEq)]
+struct Simulation {
+    state: SimulationState,
+}
+
+impl Simulation {
+    fn new() -> Simulation {
+        Simulation {
+            state: SimulationState::Paused,
+        }
+    }
+
+    fn toggle_state(&mut self) {
+        self.state = match self.state {
+            SimulationState::Paused => SimulationState::Playing,
+            SimulationState::Playing => SimulationState::Paused,
+        }
     }
 }
 
 fn generate_textures<'a>(
     canvas: &mut Canvas<Window>,
     texture_creator: &'a TextureCreator<WindowContext>,
+    square_size: u32,
 ) -> (Texture<'a>, Texture<'a>) {
     enum TextureColor {
         Yellow,
         White,
     };
     let mut square_texture1: Texture = texture_creator
-        .create_texture_target(None, SQUARE_SIZE, SQUARE_SIZE)
+        .create_texture_target(None, square_size, square_size)
         .unwrap();
     let mut square_texture2: Texture = texture_creator
-        .create_texture_target(None, SQUARE_SIZE, SQUARE_SIZE)
+        .create_texture_target(None, square_size, square_size)
         .unwrap();
     // let's change the textures we just created
     {
@@ -196,8 +227,8 @@ fn generate_textures<'a>(
                 texture_canvas.clear();
                 match *user_context {
                     TextureColor::Yellow => {
-                        for i in 0..SQUARE_SIZE {
-                            for j in 0..SQUARE_SIZE {
+                        for i in 0..square_size {
+                            for j in 0..square_size {
                                 if (i + j) % 4 == 0 {
                                     texture_canvas.set_draw_color(Color::RGB(255, 255, 0));
                                     texture_canvas
@@ -214,8 +245,8 @@ fn generate_textures<'a>(
                         }
                     }
                     TextureColor::White => {
-                        for i in 0..SQUARE_SIZE {
-                            for j in 0..SQUARE_SIZE {
+                        for i in 0..square_size {
+                            for j in 0..square_size {
                                 // drawing pixel by pixel isn't very effective, but we only do it once and store
                                 // the texture afterwards so it's still alright!
                                 if (i + j) % 7 == 0 {
@@ -236,8 +267,8 @@ fn generate_textures<'a>(
                         }
                     }
                 };
-                for i in 0..SQUARE_SIZE {
-                    for j in 0..SQUARE_SIZE {
+                for i in 0..square_size {
+                    for j in 0..square_size {
                         // drawing pixel by pixel isn't very effective, but we only do it once and store
                         // the texture afterwards so it's still alright!
                         if (i + j) % 7 == 0 {
