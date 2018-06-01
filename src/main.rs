@@ -57,6 +57,7 @@ pub fn main() {
 
     // 49x40 happen to make a neat pattern when passed to `apply_default_pattern`.
     // You might want to tweak this or make it non-hardcoded for loading larger pattern files (in the step 2 exercise).
+    // But bear in mind your benchmarking results for step 3 won't be comparable to other people unless you use the same size as them!
     let (game_width, game_height) = (49, 40);
 
     let mut game: Box<GameOfLife> = match sim.as_str() {
