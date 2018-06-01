@@ -76,7 +76,16 @@ To get you started, there's a broken implementation of Game of Life which you ca
 
     cargo run -- render broken
 
-Look at `main.rs` and `game_of_life.rs`, to see how to implement and wire up your own implementation of the `GameOfLife` trait.
+Tips:
+
+* Look at `main.rs` and `game_of_life.rs`, to see how to implement and wire up your own implementation of the `GameOfLife` trait.
+* You can store an array of data using the [Vec data type](https://doc.rust-lang.org/std/vec/struct.Vec.html).
+
+Helpful doc links:
+
+* Lots of examples at [Rust by Example](https://doc.rust-lang.org/rust-by-example/index.html) .
+* There are full tutorials at [the Rust Book](https://doc.rust-lang.org/book/second-edition/index.html).
+* If you get really stuck, try [the Rust Reference](https://doc.rust-lang.org/reference/index.html).
 
 ### Step 2 - Implement loading patterns from files
 
@@ -118,6 +127,8 @@ More info on the file format is at http://www.conwaylife.com/w/index.php?title=R
 
 You can also find far more patterns at http://www.conwaylife.com/wiki/Category:Patterns
 
+Tip: You will probably get into error handling with `Some` (Rust's version of returning `null`) and `Result` (Rust's alternative to exceptions) types. The quick and dirty way to get at the contents of each is to call `unwrap()` or `expect()` (which will panic your app if there is no content); read [the book's error handling section](https://doc.rust-lang.org/book/second-edition/ch09-00-error-handling.html) for more info.
+
 ### Step 3 - Performance tuning
 
 Goal: learn about performance tuning by competing to see who can build the fastest implementation of the game of life update step.
@@ -133,3 +144,11 @@ or bench your solution for the same with
     cargo build --release && time game-of-life bench mine
 
 Try to get your real time elapsed for a run as low as possible.
+
+Tips:
+
+* On Linux, [`perf` and Valgrind's `cachegrind` are good profiling tools](https://doc.rust-lang.org/book/second-edition/ch16-01-threads.html); you're on your own for MacOS.
+* Parallelism is easiest to do via [Rust's](https://doc.rust-lang.org/book/second-edition/ch16-01-threads.html) support.
+* If you need to communicate between threads, use channels (`mpsc::channel` or the `chan` crate) or `std::sync`'s primitives (like `Mutex`).
+* A vector (`Vec`) of booleans is fairly efficient but a bit vector might be more efficient.
+* You might want to look into Rust's SIMD support if you have experience with that.
