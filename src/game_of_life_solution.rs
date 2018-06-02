@@ -95,12 +95,12 @@
 use game_of_life::{GameOfLife};
 
 pub struct GameOfLifeSolution {
-    width: u32,
+    width: i32,
     playground: Vec<bool>,
 }
 
 impl GameOfLifeSolution {
-    pub fn new(width: u32, height: u32) -> GameOfLifeSolution {
+    pub fn new(width: i32, height: i32) -> GameOfLifeSolution {
         println!("width is {} and height is {}", width, height);
         let mut playground = Vec::new();
         playground.extend(::std::iter::repeat(false).take((width * height) as usize));
@@ -109,8 +109,8 @@ impl GameOfLifeSolution {
     }
 
     fn get_cell_mut(&mut self, x: i32, y: i32) -> Option<&mut bool> {
-        if x >= 0 && y >= 0 && (x as u32) < self.width() && (y as u32) < self.height() {
-            Some(&mut self.playground[(x as u32 + (y as u32) * self.width) as usize])
+        if x >= 0 && y >= 0 && x < self.width() && y < self.height() {
+            Some(&mut self.playground[(x + y * self.width) as usize])
         } else {
             None
         }
@@ -119,8 +119,8 @@ impl GameOfLifeSolution {
 
 impl GameOfLife for GameOfLifeSolution {
     fn is_cell_alive(&self, x: i32, y: i32) -> Option<bool> {
-        if x >= 0 && y >= 0 && (x as u32) < self.width() && (y as u32) < self.height() {
-            Some(self.playground[(x as u32 + (y as u32) * self.width) as usize])
+        if x >= 0 && y >= 0 && x < self.width() && y < self.height() {
+            Some(self.playground[(x + y * self.width) as usize])
         } else {
             None
         }
@@ -137,7 +137,7 @@ impl GameOfLife for GameOfLifeSolution {
     fn tick(&mut self) {
         let mut new_playground = self.playground.clone();
         for (u, square) in new_playground.iter_mut().enumerate() {
-            let u = u as u32;
+            let u = u as i32;
             let x = u % self.width();
             let y = u / self.width();
             let mut count: u32 = 0;
@@ -163,11 +163,11 @@ impl GameOfLife for GameOfLifeSolution {
         self.playground = new_playground;
     }
 
-    fn width(&self) -> u32 {
+    fn width(&self) -> i32 {
         self.width
     }
 
-    fn height(&self) -> u32 {
-        self.playground.len() as u32 / self.width
+    fn height(&self) -> i32 {
+        self.playground.len() as i32 / self.width
     }
 }

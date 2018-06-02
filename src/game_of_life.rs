@@ -17,19 +17,23 @@ pub trait GameOfLife {
     fn tick(&mut self);
 
     /// Return the current width in cells of the game.
-    fn width(&self) -> u32;
+    fn width(&self) -> i32;
 
     /// Return the current height in cells of the game.
-    fn height(&self) -> u32;
+    fn height(&self) -> i32;
 }
 
 /// A blatantly-wrong implementation of GameOfLife, to show the syntax for implementing traits.
+///
+/// You can start off your own implementation by copy-pasting this.
 pub struct BrokenGame {
     cell_state: bool,
 }
 
 impl BrokenGame {
-    pub fn new() -> Self {
+    pub fn new(game_width: i32, game_height: i32) -> BrokenGame { // note `new` is just a regular function
+        assert!(game_width > 0, "game width must be greater than 0");
+        assert!(game_height > 0, "game height must be greater than 0");
         BrokenGame { cell_state: true }
     }
 }
@@ -39,7 +43,7 @@ impl GameOfLife for BrokenGame {
         Some(self.cell_state)
     }
 
-    fn toggle_cell(&mut self, _x: i32, _y: i32) {
+    fn toggle_cell(&mut self, _x: i32, _y: i32) { // underscores stop compiler complaining about unused variables
         // Toggle the only cell we have
         self.cell_state = !self.cell_state;
     }
@@ -53,19 +57,20 @@ impl GameOfLife for BrokenGame {
         );
     }
 
-    fn width(&self) -> u32 {
-        49 // broken implementation always lies about the width
+    fn width(&self) -> i32 {
+        49 // broken implementation always returns the same width
     }
 
-    fn height(&self) -> u32 {
-        40 // broken implementation always lies about the height
+    fn height(&self) -> i32 {
+        40 // broken implementation always returns the same height
     }
 }
 
-#[cfg(test)]
+#[cfg(test)] // this attr means the module below is only included when doing `cargo test`
 mod broken_game_test {
     use super::{BrokenGame, GameOfLife};
 
+    /// A basic test to show you how to write tests in Rust, in case you want to write your own.
     #[test]
     fn broken_game_is_definitely_broken() {
         let mut game = BrokenGame::new();

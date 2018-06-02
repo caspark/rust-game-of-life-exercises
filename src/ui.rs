@@ -27,7 +27,7 @@ pub struct UiOptions {
     ///
     /// Should be a power of 2; 8 or 16 are suitable for small to medium patterns.
     /// Options lower than 4 will result in rendering artifacts, so that's disallowed.
-    pub square_size: u32,
+    pub square_size: i32,
 }
 
 impl UiOptions {
@@ -52,8 +52,8 @@ pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
     let window = video_subsystem
         .window(
             "RustLife",
-            options.square_size * game.width(),
-            options.square_size * game.height(),
+            (options.square_size * game.width()) as u32,
+            (options.square_size * game.height()) as u32,
         )
         .position_centered()
         .build()
@@ -81,7 +81,7 @@ pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
     // textures, you have to create a `TextureCreator` instead.
     let texture_creator: TextureCreator<_> = canvas.texture_creator();
 
-    let (playing_texture, paused_texture) = generate_textures(&mut canvas, &texture_creator, options.square_size);
+    let (playing_texture, paused_texture) = generate_textures(&mut canvas, &texture_creator, options.square_size as u32);
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut last_tick_time = SystemTime::now();
@@ -111,8 +111,8 @@ pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
                     mouse_btn: MouseButton::Left,
                     ..
                 } => {
-                    let cell_x = (x as u32) / options.square_size;
-                    let cell_y = (y as u32) / options.square_size;
+                    let cell_x = x / options.square_size;
+                    let cell_y = y / options.square_size;
                     println!(
                         "Attempting to toggle cell at {}, {} due to mouse click at {}, {}",
                         cell_x, cell_y, x, y
@@ -146,8 +146,8 @@ pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
         };
         // there are more efficient ways to iterate over all cells, but the API used here is easiest
         // to implement for people with little to no Rust experience, so we'll stick with this.
-        for x in 0..(game.width()) {
-            for y in 0..(game.height()) {
+        for x in 0..game.width() {
+            for y in 0..game.height() {
                 match game.is_cell_alive(x as i32, y as i32) {
                     Some(true) => canvas
                         .copy(
@@ -156,8 +156,8 @@ pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
                             Rect::new(
                                 (x * options.square_size) as i32,
                                 (y * options.square_size) as i32,
-                                options.square_size,
-                                options.square_size,
+                                options.square_size as u32,
+                                options.square_size as u32,
                             ),
                         )
                         .unwrap(),
