@@ -147,11 +147,11 @@ Rust by default builds & runs unoptimized debug code - pass the `--release` flag
 
 You can benchmark the official solution through a million game steps with:
 
-    cargo build --release && time game-of-life bench solution
+    cargo build --release && time target/release/game-of-life bench solution
 
 or bench your solution for the same with
 
-    cargo build --release && time game-of-life bench mine
+    cargo build --release && time target/release/game-of-life bench mine
 
 Try to get your real time elapsed for a run as low as possible.
 
