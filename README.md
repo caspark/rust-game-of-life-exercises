@@ -14,8 +14,9 @@ Install Rust
 
 If you want IDE support:
 
-* IntelliJ IDEA (community edition) w/ the JetBrains Rust plugin is the best experience as of 2018 June.
-* VSCode's Rust mode is a close second: https://github.com/editor-rs/vscode-rust
+* IntelliJ IDEA (community edition) w/ the JetBrains Rust plugin: https://intellij-rust.github.io/
+* VSCode's Rust Language Server (RLS) extension: https://github.com/rust-lang/rls-vscode
+* Sublime Text 3 ships with a 3 year old Rust plugin, so you can try https://github.com/rust-lang/rust-enhanced
 
 Repo Setup
 ----------
@@ -167,7 +168,7 @@ Try to get your real time elapsed for a run as low as possible.
 
 Tips:
 
-* On Linux, `perf` and Valgrind's `cachegrind` are good profiling tools; you're on your own for MacOS and Windows.
+* On Linux, `perf` and Valgrind's `cachegrind` are good profiling tools, and I hear MacOS has something similar in the form of dtrace. Perhaps the [flamegraph](https://github.com/ferrous-systems/flamegraph) crate might be worth using on Linux and MacOS? But you're on your own for Windows.
 * Parallelism is easiest to do via [Rust's](https://doc.rust-lang.org/book/ch16-01-threads.html) support.
 * If you need to communicate between threads, use channels (`mpsc::channel` or the `chan` crate) or `std::sync`'s primitives (like `Mutex`).
 * A vector (`Vec`) of booleans is fairly efficient but a bit vector might be more efficient.
