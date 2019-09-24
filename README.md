@@ -9,7 +9,7 @@ Install Rust
     # install Rust by following the prompts
     curl https://sh.rustup.rs -sSf | sh
 
-    # install the Rust Language Server (for IDE assistance), Rust code formatter, and the stdlib source 
+    # install the Rust Language Server (for IDE assistance), Rust code formatter, and the stdlib source
     rustup component add rls-preview rustfmt-preview rust-src
 
 If you want IDE support:
@@ -35,6 +35,10 @@ Install SDL2 via HomeBrew:
 Then set up the header locations by adding `/usr/local/lib` to your path (you can skip this if it's already in your path):
 
     echo 'export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"' >> ~/.bash_profile
+
+### Windows
+
+SDL 2.0.10 libraries are provided in the `gnu-mingw` and `msvc` directories; combined with the power of the `build.rs` script, they should "just work".
 
 Running
 -------
