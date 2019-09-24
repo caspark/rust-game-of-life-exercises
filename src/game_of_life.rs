@@ -73,7 +73,7 @@ mod broken_game_test {
     /// A basic test to show you how to write tests in Rust, in case you want to write your own.
     #[test]
     fn broken_game_is_definitely_broken() {
-        let mut game = BrokenGame::new();
+        let mut game = BrokenGame::new(10, 10);
         let cell_0_0_orig_val = game.is_cell_alive(0, 0);
 
         // change a totally different cell from 0,0
