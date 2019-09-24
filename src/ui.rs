@@ -38,7 +38,7 @@ impl UiOptions {
     }
 }
 
-pub fn run_game(mut game: Box<GameOfLife>, options: &UiOptions) {
+pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
     assert!(options.square_size >= 4, "UI's configured square_size should be at least 4");
 
     let mut sim = Simulation::new();

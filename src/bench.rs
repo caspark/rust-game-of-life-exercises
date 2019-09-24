@@ -6,7 +6,7 @@
 
 use game_of_life::GameOfLife;
 
-pub fn run_bench(mut game: Box<GameOfLife>, num_iterations: u32) {
+pub fn run_bench(mut game: Box<dyn GameOfLife>, num_iterations: u32) {
     println!("Starting benchmark with {} iterations", num_iterations);
     for _ in 0..num_iterations {
         game.tick();

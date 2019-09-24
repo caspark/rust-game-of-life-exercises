@@ -60,7 +60,7 @@ pub fn main() {
     // But bear in mind your benchmarking results for step 3 won't be comparable to other people unless you use the same size as them!
     let (game_width, game_height) = (49, 40);
 
-    let mut game: Box<GameOfLife> = match sim.as_str() {
+    let mut game: Box<dyn GameOfLife> = match sim.as_str() {
         SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new(game_width, game_height)),
         SIM_BROKEN => Box::new(game_of_life::BrokenGame::new(game_width, game_height)),
         SIM_MINE => {
@@ -96,13 +96,13 @@ pub fn main() {
 }
 
 #[allow(unused_variables)]
-fn load_and_apply_pattern(game: &mut GameOfLife, pattern_filename: &str) {
+fn load_and_apply_pattern(game: &mut dyn GameOfLife, pattern_filename: &str) {
     //FIXME fill this out for the step 2 exercise :)
     unimplemented!("Pattern loading from file is not implemented yet!");
 }
 
 /// Loads a nice default pattern into the given game
-fn apply_default_pattern(game: &mut GameOfLife) {
+fn apply_default_pattern(game: &mut dyn GameOfLife) {
     // borrows to work around a borrow checker limitation (non-lexical lifetimes can't come soon enough..)
     let game_width = game.width();
     let game_height = game.height();
