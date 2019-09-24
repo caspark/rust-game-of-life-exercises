@@ -109,17 +109,13 @@ fn load_and_apply_pattern(game: &mut dyn GameOfLife, pattern_filename: &str) {
 
 /// Loads a nice default pattern into the given game
 fn apply_default_pattern(game: &mut dyn GameOfLife) {
-    // borrows to work around a borrow checker limitation (non-lexical lifetimes can't come soon enough..)
-    let game_width = game.width();
-    let game_height = game.height();
-
-    for x in 1..game_width - 1 {
+    for x in 1..game.width() - 1 {
         game.toggle_cell(x as i32, 1);
-        game.toggle_cell(x as i32, game_height as i32 - 2);
+        game.toggle_cell(x as i32, game.height() as i32 - 2);
     }
 
-    for y in 1..game_height - 1 {
+    for y in 1..game.height() - 1 {
         game.toggle_cell(1, y as i32);
-        game.toggle_cell(game_width as i32 - 2, y as i32);
+        game.toggle_cell(game.width() as i32 - 2, y as i32);
     }
 }
