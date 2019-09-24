@@ -8,7 +8,7 @@ mod game_of_life_solution;
 mod ui;
 
 // import types and modules we want to use; note that `extern crate` and `mod` statements pre-import those crates/modules for this file too.
-use game_of_life::GameOfLife;
+use crate::game_of_life::GameOfLife;
 use std::env;
 
 // define a few constants for our homegrown arg parsing
