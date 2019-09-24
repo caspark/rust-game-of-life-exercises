@@ -92,7 +92,7 @@
 //! it's not optimized for speed.
 //!
 
-use game_of_life::{GameOfLife};
+use game_of_life::GameOfLife;
 
 pub struct GameOfLifeSolution {
     width: i32,

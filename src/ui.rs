@@ -39,7 +39,10 @@ impl UiOptions {
 }
 
 pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
-    assert!(options.square_size >= 4, "UI's configured square_size should be at least 4");
+    assert!(
+        options.square_size >= 4,
+        "UI's configured square_size should be at least 4"
+    );
 
     let mut sim = Simulation::new();
     let sdl_context = sdl2::init().unwrap();
@@ -81,7 +84,8 @@ pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
     // textures, you have to create a `TextureCreator` instead.
     let texture_creator: TextureCreator<_> = canvas.texture_creator();
 
-    let (playing_texture, paused_texture) = generate_textures(&mut canvas, &texture_creator, options.square_size as u32);
+    let (playing_texture, paused_texture) =
+        generate_textures(&mut canvas, &texture_creator, options.square_size as u32);
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut last_tick_time = SystemTime::now();

@@ -61,7 +61,10 @@ pub fn main() {
     let (game_width, game_height) = (49, 40);
 
     let mut game: Box<dyn GameOfLife> = match sim.as_str() {
-        SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new(game_width, game_height)),
+        SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new(
+            game_width,
+            game_height,
+        )),
         SIM_BROKEN => Box::new(game_of_life::BrokenGame::new(game_width, game_height)),
         SIM_MINE => {
             //FIXME reference your implementation here for the step 1 exercise :)
@@ -81,11 +84,14 @@ pub fn main() {
 
     match mode.as_str() {
         MODE_RENDER => {
-            ui::run_game(game, &ui::UiOptions {
-                // you can change these parameters if you like - UiOptions docs explain each param
-                millis_between_ticks: 500,
-                square_size: 16,
-            })
+            ui::run_game(
+                game,
+                &ui::UiOptions {
+                    // you can change these parameters if you like - UiOptions docs explain each param
+                    millis_between_ticks: 500,
+                    square_size: 16,
+                },
+            )
         }
         MODE_BENCH => bench::run_bench(game, BENCHMARK_STEPS),
         other => panic!(
