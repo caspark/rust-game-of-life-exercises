@@ -10,7 +10,7 @@ Install Rust
     curl https://sh.rustup.rs -sSf | sh
 
     # install the Rust Language Server (for IDE assistance), Rust code formatter, and the stdlib source
-    rustup component add rls-preview rustfmt-preview rust-src
+    rustup component add rls rustfmt rust-src
 
 If you want IDE support:
 
@@ -58,7 +58,7 @@ Development tips
 
 Get faster type errors with `cargo check` (it skips actually building the resulting binary).
 
-Run tests with `cargo test`.
+Run tests with `cargo test` (there aren't any useful tests right now, but you could add some).
 
 Format your code with `cargo fmt`.
 
@@ -97,9 +97,10 @@ Tips:
 
 Helpful doc links:
 
-* Lots of examples at [Rust by Example](https://doc.rust-lang.org/rust-by-example/index.html) .
-* There are full tutorials at [the Rust Book](https://doc.rust-lang.org/book/second-edition/index.html).
-* If you get really stuck, try [the Rust Reference](https://doc.rust-lang.org/reference/index.html).
+* Lots of examples at [Rust by Example](https://doc.rust-lang.org/rust-by-example/index.html).
+* There are full tutorials at [the Rust Book](https://doc.rust-lang.org/book/).
+* [Rust's standard library docs](https://doc.rust-lang.org/std/index.html).
+* A full set of docs at [Learn Rust](https://www.rust-lang.org/learn).
 
 ### Step 2 - Implement loading patterns from files
 
@@ -141,7 +142,7 @@ More info on the file format is at http://www.conwaylife.com/w/index.php?title=R
 
 You can also find far more patterns at http://www.conwaylife.com/wiki/Category:Patterns
 
-Tip: You will probably get into error handling with `Some` (Rust's version of returning `null`) and `Result` (Rust's alternative to exceptions) types. The quick and dirty way to get at the contents of each is to call `unwrap()` or `expect()` (which will panic your app if there is no content); read [the book's error handling section](https://doc.rust-lang.org/book/second-edition/ch09-00-error-handling.html) for more info.
+Tip: You will probably get into error handling with `Some` (Rust's version of returning `null`) and `Result` (Rust's alternative to exceptions) types. The quick and dirty way to get at the contents of each is to call `unwrap()` or `expect()` (which will panic your app if there is no content); read [the book's error handling section](https://doc.rust-lang.org/book/ch09-00-error-handling.html) for more info.
 
 ### Step 3 - Performance tuning
 
@@ -149,20 +150,25 @@ Goal: learn about performance tuning by competing to see who can build the faste
 
 Rust by default builds & runs unoptimized debug code - pass the `--release` flag to Cargo for a 10-100x speedup.
 
-You can benchmark the official solution through a million game steps with:
+You can benchmark the official solution vs your solution through a million game steps with:
 
-    cargo build --release && time target/release/game-of-life bench solution
+    cargo build --release
+    time target/release/game-of-life bench solution
+    time target/release/game-of-life bench mine
 
-or bench your solution for the same with
+On Windows, use Powershell:
 
-    cargo build --release && time target/release/game-of-life bench mine
+    powershell
+    cargo build --release
+    Measure-Command {.\target\release\game-of-life.exe bench solution}
+    Measure-Command {.\target\release\game-of-life.exe bench mine}
 
 Try to get your real time elapsed for a run as low as possible.
 
 Tips:
 
-* On Linux, [`perf` and Valgrind's `cachegrind` are good profiling tools](https://doc.rust-lang.org/book/second-edition/ch16-01-threads.html); you're on your own for MacOS.
-* Parallelism is easiest to do via [Rust's](https://doc.rust-lang.org/book/second-edition/ch16-01-threads.html) support.
+* On Linux, `perf` and Valgrind's `cachegrind` are good profiling tools; you're on your own for MacOS and Windows.
+* Parallelism is easiest to do via [Rust's](https://doc.rust-lang.org/book/ch16-01-threads.html) support.
 * If you need to communicate between threads, use channels (`mpsc::channel` or the `chan` crate) or `std::sync`'s primitives (like `Mutex`).
 * A vector (`Vec`) of booleans is fairly efficient but a bit vector might be more efficient.
 * You might want to look into Rust's SIMD support if you have experience with that.
