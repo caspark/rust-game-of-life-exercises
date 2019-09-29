@@ -88,7 +88,7 @@ pub fn main() {
                 game,
                 &ui::UiOptions {
                     // you can change these parameters if you like - UiOptions docs explain each param
-                    millis_between_ticks: 500,
+                    millis_between_ticks: 5,
                     square_size: 16,
                 },
             )
@@ -110,12 +110,12 @@ fn load_and_apply_pattern(game: &mut dyn GameOfLife, pattern_filename: &str) {
 /// Loads a nice default pattern into the given game
 fn apply_default_pattern(game: &mut dyn GameOfLife) {
     for x in 1..game.width() - 1 {
-        game.toggle_cell(x as i32, 1);
-        game.toggle_cell(x as i32, game.height() as i32 - 2);
+        game.toggle_cell(x, 1);
+        game.toggle_cell(x, game.height() - 2);
     }
 
     for y in 1..game.height() - 1 {
-        game.toggle_cell(1, y as i32);
-        game.toggle_cell(game.width() as i32 - 2, y as i32);
+        game.toggle_cell(1, y);
+        game.toggle_cell(game.width() - 2, y);
     }
 }

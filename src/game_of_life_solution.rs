@@ -95,22 +95,22 @@
 use crate::game_of_life::GameOfLife;
 
 pub struct GameOfLifeSolution {
-    width: i32,
+    width: usize,
     playground: Vec<bool>,
 }
 
 impl GameOfLifeSolution {
-    pub fn new(width: i32, height: i32) -> GameOfLifeSolution {
+    pub fn new(width: usize, height: usize) -> GameOfLifeSolution {
         println!("width is {} and height is {}", width, height);
         let mut playground = Vec::new();
-        playground.extend(::std::iter::repeat(false).take((width * height) as usize));
+        playground.extend(::std::iter::repeat(false).take(width * height));
 
         GameOfLifeSolution { width, playground }
     }
 
-    fn get_cell_mut(&mut self, x: i32, y: i32) -> Option<&mut bool> {
-        if x >= 0 && y >= 0 && x < self.width() && y < self.height() {
-            Some(&mut self.playground[(x + y * self.width) as usize])
+    fn get_cell_mut(&mut self, x: usize, y: usize) -> Option<&mut bool> {
+        if x < self.width() && y < self.height() {
+            Some(&mut self.playground[x + y * self.width])
         } else {
             None
         }
@@ -118,16 +118,16 @@ impl GameOfLifeSolution {
 }
 
 impl GameOfLife for GameOfLifeSolution {
-    fn is_cell_alive(&self, x: i32, y: i32) -> Option<bool> {
-        if x >= 0 && y >= 0 && x < self.width() && y < self.height() {
+    fn is_cell_alive(&self, x: usize, y: usize) -> Option<bool> {
+        if x < self.width() && y < self.height() {
             Some(self.playground[(x + y * self.width) as usize])
         } else {
             None
         }
     }
 
-    fn toggle_cell(&mut self, x: i32, y: i32) {
-        if let Some(square) = self.get_cell_mut(x as i32, y as i32) {
+    fn toggle_cell(&mut self, x: usize, y: usize) {
+        if let Some(square) = self.get_cell_mut(x, y) {
             *square = !(*square);
         } else {
             eprintln!("Avoiding toggling cell at {}, {} - is out of bounds!", x, y);
@@ -137,15 +137,22 @@ impl GameOfLife for GameOfLifeSolution {
     fn tick(&mut self) {
         let mut new_playground = self.playground.clone();
         for (u, square) in new_playground.iter_mut().enumerate() {
-            let u = u as i32;
             let x = u % self.width();
             let y = u / self.width();
             let mut count: u32 = 0;
-            for i in -1..=1 {
-                for j in -1..=1 {
-                    if !(i == 0 && j == 0) {
-                        let peek_x: i32 = (x as i32) + i;
-                        let peek_y: i32 = (y as i32) + j;
+            // We're working with unsigned numbers, so instead of the top left offset
+            // being -1,-1, it's 0,0. Also, to avoid underflowing, leave out the top
+            // (/left) row (/column) of cells if we're dealing with the topmost row
+            // (/leftmost column) on the board.
+            let min_x_offset = if x > 0 { 0 } else { 1 };
+            let min_y_offset = if y > 0 { 0 } else { 1 };
+            for i in min_x_offset..=2 {
+                for j in min_y_offset..=2 {
+                    if !(i == 1 && j == 1) {
+                        // subtract 1 to correct for 0,0 offset being top left
+                        // neighbor
+                        let peek_x = x + i - 1;
+                        let peek_y = y + j - 1;
                         if let Some(true) = self.is_cell_alive(peek_x, peek_y) {
                             count += 1;
                         }
@@ -163,11 +170,11 @@ impl GameOfLife for GameOfLifeSolution {
         self.playground = new_playground;
     }
 
-    fn width(&self) -> i32 {
+    fn width(&self) -> usize {
         self.width
     }
 
-    fn height(&self) -> i32 {
-        self.playground.len() as i32 / self.width
+    fn height(&self) -> usize {
+        self.playground.len() / self.width
     }
 }

@@ -3,7 +3,7 @@
 pub trait GameOfLife {
     /// Return `Some(true)` if the cell is alive, `Some(false)` if it is dead, or `None` if `x`
     /// and/or `y` are out of bounds.
-    fn is_cell_alive(&self, x: i32, y: i32) -> Option<bool>;
+    fn is_cell_alive(&self, x: usize, y: usize) -> Option<bool>;
 
     /// Swap the given cell from alive to dead or dead to alive.
     ///
@@ -11,17 +11,17 @@ pub trait GameOfLife {
     ///
     /// The origin is assumed to be at the top left, i.e. when `(x, y) == (0, 0)` then the
     /// top-left-most cell should be toggled.
-    fn toggle_cell(&mut self, x: i32, y: i32);
+    fn toggle_cell(&mut self, x: usize, y: usize);
 
     /// Execute one timestep; i.e. cause cells to live, be born, or die based on the amount of
     /// neighbors they have.
     fn tick(&mut self);
 
     /// Return the current width in cells of the game.
-    fn width(&self) -> i32;
+    fn width(&self) -> usize;
 
     /// Return the current height in cells of the game.
-    fn height(&self) -> i32;
+    fn height(&self) -> usize;
 }
 
 /// A blatantly-wrong implementation of GameOfLife, to show the syntax for implementing traits.
@@ -37,7 +37,7 @@ pub struct BrokenGame {
 
 impl BrokenGame {
     // note `new` is just a regular function - there's no such thing as a "constructor"
-    pub fn new(game_width: i32, game_height: i32) -> BrokenGame {
+    pub fn new(game_width: usize, game_height: usize) -> BrokenGame {
         assert!(game_width > 0, "game width must be greater than 0");
         assert!(game_height > 0, "game height must be greater than 0");
         BrokenGame { cell_state: true }
@@ -45,14 +45,14 @@ impl BrokenGame {
 }
 
 impl GameOfLife for BrokenGame {
-    fn is_cell_alive(&self, _x: i32, _y: i32) -> Option<bool> {
+    fn is_cell_alive(&self, _x: usize, _y: usize) -> Option<bool> {
         // Broken: this doesn't respect the x & y params at all.
         Some(self.cell_state)
     }
 
     // NB: underscores stop compiler complaining about unused variables - if you use them, you
     // should rename them to remove the underscores.
-    fn toggle_cell(&mut self, _x: i32, _y: i32) {
+    fn toggle_cell(&mut self, _x: usize, _y: usize) {
         // Broken: toggle the only cell we have, instead of the one refenced by _x and _y
         self.cell_state = !self.cell_state;
     }
@@ -60,7 +60,7 @@ impl GameOfLife for BrokenGame {
     fn tick(&mut self) {
         // Broken: each game tick, we'll just toggle some arbitrary cell's state from what it
         // previously was, instead of implementing the rules of Conway's Game of Life.
-        self.toggle_cell(-42, 42);
+        self.toggle_cell(42, 42);
 
         println!(
             "Broken game tick completed - cell_state is now {}",
@@ -68,11 +68,11 @@ impl GameOfLife for BrokenGame {
         );
     }
 
-    fn width(&self) -> i32 {
+    fn width(&self) -> usize {
         49 // Broken: this implementation always returns the same width
     }
 
-    fn height(&self) -> i32 {
+    fn height(&self) -> usize {
         40 // Broken: this implementation always returns the same height
     }
 }
