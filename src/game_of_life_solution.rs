@@ -141,8 +141,8 @@ impl GameOfLife for GameOfLifeSolution {
             let x = u % self.width();
             let y = u / self.width();
             let mut count: u32 = 0;
-            for i in -1..2 {
-                for j in -1..2 {
+            for i in -1..=1 {
+                for j in -1..=1 {
                     if !(i == 0 && j == 0) {
                         let peek_x: i32 = (x as i32) + i;
                         let peek_y: i32 = (y as i32) + j;
