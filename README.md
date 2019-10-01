@@ -149,22 +149,13 @@ Tip: You will probably get into error handling with `Some` (Rust's version of re
 
 Goal: learn about performance tuning by competing to see who can build the fastest implementation of the game of life update step.
 
-Rust by default builds & runs unoptimized debug code - pass the `--release` flag to Cargo for a 10-100x speedup.
+To see benchmarks powered by the [Criterion](https://bheisler.github.io/criterion.rs/book/user_guide/command_line_output.html) benchmarking library, run:
 
-You can benchmark the official solution vs your solution through a million game steps with:
+    cargo bench
 
-    cargo build --release
-    time target/release/game-of-life bench solution
-    time target/release/game-of-life bench mine
+The results for your implementation won't be automatically included; add it over in `benches/benchmark.rs`. Then try to beat the solution's speed! It shouldn't be too hard :)
 
-On Windows, use Powershell:
-
-    powershell
-    cargo build --release
-    Measure-Command {.\target\release\game-of-life.exe bench solution}
-    Measure-Command {.\target\release\game-of-life.exe bench mine}
-
-Try to get your real time elapsed for a run as low as possible.
+NB: If you don't want to use Criterion's benchmarks, note that Rust by default builds & runs unoptimized debug code - pass the `--release` flag to Cargo for a 10-100x speedup.
 
 Tips:
 
