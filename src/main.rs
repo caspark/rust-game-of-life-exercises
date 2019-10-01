@@ -3,12 +3,11 @@ extern crate sdl2;
 
 // declare the modules that the Rust compiler should look for
 mod bench;
-mod game_of_life;
-mod game_of_life_solution;
 mod ui;
 
 // import types and modules we want to use; note that `extern crate` and `mod` statements pre-import those crates/modules for this file too.
-use crate::game_of_life::GameOfLife;
+use conway::game_of_life::{self, GameOfLife};
+use conway::game_of_life_solution;
 use std::env;
 
 // define a few constants for our homegrown arg parsing

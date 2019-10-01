@@ -24,6 +24,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "conway"
+version = "0.1.0"
+
+[[package]]
 name = "fuchsia-cprng"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -32,6 +36,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "game-of-life"
 version = "0.2.0"
 dependencies = [
+ "conway 0.1.0",
  "sdl2 0.32.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
