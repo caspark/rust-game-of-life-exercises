@@ -1,15 +1,9 @@
-// declare dependencies (somewhat duplicated by Cargo's Crate.toml because the Rust compiler can be used without Cargo)
-extern crate sdl2;
+// import types and modules we want to use
+use std::env;
 
-// declare the modules that the Rust compiler should look for
+// declare the modules that the Rust compiler should look for, which also imports them
 mod bench;
 mod ui;
-
-// import types and modules we want to use; note that `extern crate` and `mod` statements pre-import those crates/modules for this file too.
-use conway::game_of_life;
-use conway::game_of_life_broken;
-use conway::game_of_life_solution;
-use std::env;
 
 // define a few constants for our homegrown arg parsing
 const MODE_RENDER: &str = "render";
@@ -60,15 +54,9 @@ pub fn main() {
     // But bear in mind your benchmarking results for step 3 won't be comparable to other people unless you use the same size as them!
     let (game_width, game_height) = (49, 40);
 
-    let mut game: Box<dyn game_of_life::GameOfLife> = match sim.as_str() {
-        SIM_SOLUTION => Box::new(game_of_life_solution::GameOfLifeSolution::new(
-            game_width,
-            game_height,
-        )),
-        SIM_BROKEN => Box::new(game_of_life_broken::BrokenGame::new(
-            game_width,
-            game_height,
-        )),
+    let mut game: Box<dyn conway::GameOfLife> = match sim.as_str() {
+        SIM_SOLUTION => Box::new(conway::GameOfLifeSolution::new(game_width, game_height)),
+        SIM_BROKEN => Box::new(conway::BrokenGame::new(game_width, game_height)),
         SIM_MINE => {
             //FIXME reference your implementation here for the step 1 exercise :)
             unimplemented!("The {} simulation is not yet implemented!", SIM_MINE);
@@ -105,13 +93,13 @@ pub fn main() {
 }
 
 #[allow(unused_variables)]
-fn load_and_apply_pattern(game: &mut dyn game_of_life::GameOfLife, pattern_filename: &str) {
+fn load_and_apply_pattern(game: &mut dyn conway::GameOfLife, pattern_filename: &str) {
     //FIXME fill this out for the step 2 exercise :)
     unimplemented!("Pattern loading from file is not implemented yet!");
 }
 
 /// Loads a nice default pattern into the given game
-fn apply_default_pattern(game: &mut dyn game_of_life::GameOfLife) {
+fn apply_default_pattern(game: &mut dyn conway::GameOfLife) {
     for x in 1..game.width() - 1 {
         game.toggle_cell(x, 1);
         game.toggle_cell(x, game.height() - 2);

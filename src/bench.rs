@@ -4,7 +4,7 @@
 //! feature flag, so you can't use it unless you swap to nightly Rust; for more info see
 //! https://doc.rust-lang.org/stable/unstable-book/library-features/test.html
 
-use conway::game_of_life::GameOfLife;
+use conway::GameOfLife;
 
 pub fn run_bench(mut game: Box<dyn GameOfLife>, num_iterations: u32) {
     println!("Starting benchmark with {} iterations", num_iterations);
