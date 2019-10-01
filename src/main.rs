@@ -58,7 +58,7 @@ pub fn main() {
         SIM_SOLUTION => Box::new(conway::GameOfLifeSolution::new(game_width, game_height)),
         SIM_BROKEN => Box::new(conway::BrokenGame::new(game_width, game_height)),
         SIM_MINE => {
-            //FIXME reference your implementation here for the step 1 exercise :)
+            //TODO reference your implementation here for the step 1 exercise :)
             unimplemented!("The {} simulation is not yet implemented!", SIM_MINE);
         }
         other => panic!(
