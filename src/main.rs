@@ -68,9 +68,9 @@ pub fn main() {
     };
 
     if let Some(pattern_filename) = maybe_pattern_filename {
-        load_and_apply_pattern(game.as_mut(), pattern_filename);
+        conway::load_and_apply_pattern(game.as_mut(), pattern_filename);
     } else {
-        apply_default_pattern(game.as_mut());
+        conway::apply_default_pattern(game.as_mut());
     }
 
     match mode.as_str() {
@@ -90,23 +90,4 @@ pub fn main() {
             other, available_sims, usage
         ),
     };
-}
-
-#[allow(unused_variables)]
-fn load_and_apply_pattern(game: &mut dyn conway::GameOfLife, pattern_filename: &str) {
-    //FIXME fill this out for the step 2 exercise :)
-    unimplemented!("Pattern loading from file is not implemented yet!");
-}
-
-/// Loads a nice default pattern into the given game
-fn apply_default_pattern(game: &mut dyn conway::GameOfLife) {
-    for x in 1..game.width() - 1 {
-        game.toggle_cell(x, 1);
-        game.toggle_cell(x, game.height() - 2);
-    }
-
-    for y in 1..game.height() - 1 {
-        game.toggle_cell(1, y);
-        game.toggle_cell(game.width() - 2, y);
-    }
 }
