@@ -7,6 +7,7 @@ use crate::game_of_life::GameOfLife;
 /// creating a game board of the requested size.
 ///
 /// You can start off your own implementation by copy-pasting this.
+#[derive(Clone, Debug)]
 pub struct BrokenGame {
     cell_state: bool,
 }
@@ -38,10 +39,7 @@ impl GameOfLife for BrokenGame {
         // previously was, instead of implementing the rules of Conway's Game of Life.
         self.toggle_cell(42, 42);
 
-        println!(
-            "Broken game tick completed - cell_state is now {}",
-            self.cell_state
-        );
+        // println!("Broken tick: cell_state is now {}", self.cell_state);
     }
 
     fn width(&self) -> usize {

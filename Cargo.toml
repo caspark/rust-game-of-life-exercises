@@ -9,3 +9,10 @@ edition = "2018"
 [dependencies]
 conway = {path = "conway"}
 sdl2 = "*"
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "benchmark"
+harness = false

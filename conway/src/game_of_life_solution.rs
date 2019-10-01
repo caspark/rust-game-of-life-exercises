@@ -94,6 +94,7 @@
 
 use crate::game_of_life::GameOfLife;
 
+#[derive(Clone, Debug)]
 pub struct GameOfLifeSolution {
     width: usize,
     playground: Vec<bool>,
