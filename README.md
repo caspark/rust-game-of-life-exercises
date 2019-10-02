@@ -58,6 +58,8 @@ You can also experiment with different sizes, and running in `release` mode to g
 
     cargo run --release -- solution --cell-size 4 --fps 120 -w 300 -h 300
 
+Pass the `--help` flag to get a full rundown of the options.
+
 Development tips
 ----------------
 
