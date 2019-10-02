@@ -79,7 +79,7 @@ pub fn main() {
                 game,
                 &ui::UiOptions {
                     // you can change these parameters if you like - UiOptions docs explain each param
-                    millis_between_ticks: 5,
+                    millis_between_ticks: 500,
                     square_size: 16,
                 },
             )
