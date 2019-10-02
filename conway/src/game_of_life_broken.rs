@@ -53,7 +53,7 @@ impl GameOfLife for GameOfLiveBroken {
 
 #[cfg(test)] // this attr means the module below is only included when doing `cargo test`
 mod broken_game_test {
-    use super::{GameOfLiveBroken, GameOfLife};
+    use super::{GameOfLife, GameOfLiveBroken};
 
     /// A basic test to show you how to write tests in Rust, in case you want to write your own.
     #[test]

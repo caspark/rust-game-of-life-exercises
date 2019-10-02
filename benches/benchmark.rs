@@ -5,7 +5,7 @@ use criterion::Criterion;
 use criterion::{BatchSize, BenchmarkId};
 
 //TODO import your implementation here
-use conway::{apply_default_pattern, GameOfLiveBroken, GameOfLife, GameOfLifeSolution};
+use conway::{apply_default_pattern, GameOfLife, GameOfLifeSolution, GameOfLiveBroken};
 
 const NUM_TICKS: u32 = 50;
 

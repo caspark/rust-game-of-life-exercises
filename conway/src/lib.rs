@@ -1,3 +1,5 @@
+use std::path::Path;
+
 // declare what modules this library provides
 //TODO you'll need to add a module for your implementation here
 mod game_of_life;
@@ -12,9 +14,12 @@ pub use game_of_life_broken::GameOfLiveBroken;
 pub use game_of_life_solution::GameOfLifeSolution;
 
 #[allow(unused_variables)] //TODO remove this lint once you're implementing this function
-pub fn load_and_apply_pattern(game: &mut dyn game_of_life::GameOfLife, pattern_filename: &str) {
+pub fn load_and_apply_pattern(game: &mut dyn game_of_life::GameOfLife, pattern_filename: &Path) {
     //TODO fill this out for the step 2 exercise :)
-    unimplemented!("Pattern loading from file is not implemented yet!");
+    unimplemented!(
+        "Need to implement loading pattern from file {:?}",
+        &pattern_filename
+    );
 }
 
 /// Loads a nice default pattern into the given game

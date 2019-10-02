@@ -39,11 +39,6 @@ impl UiOptions {
 }
 
 pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
-    assert!(
-        options.square_size >= 4,
-        "UI's configured square_size should be at least 4"
-    );
-
     let mut sim = Simulation::new();
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();

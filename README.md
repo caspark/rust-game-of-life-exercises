@@ -46,13 +46,17 @@ Running
 
 Run the simulation with
 
-    cargo run -- render solution
+    cargo run -- solution
 
 then hit <kbd>Space</kbd> to pause/unpause.
 
 You can also toggle the state of cells using the mouse's left click.
 
 Hit <kbd>Escape</kbd> or <kbd>Q</kbd> to quit.
+
+You can also experiment with different sizes, and running in `release` mode to get a speed boost (turns on various compile-time optimizations at the cost of slower compiles):
+
+    cargo run --release -- solution --cell-size 4 --fps 120 -w 300 -h 300
 
 Development tips
 ----------------
@@ -78,7 +82,7 @@ Goal: get started with Rust by implementing the game logic rules for Conway's Ga
 
 When you run
 
-    cargo run -- render mine
+    cargo run -- mine
 
 then each game tick should cause the following behavior:
 
@@ -89,7 +93,7 @@ then each game tick should cause the following behavior:
 
 To get you started, there's a broken implementation of Game of Life which you can run with:
 
-    cargo run -- render broken
+    cargo run -- broken
 
 Tips:
 
