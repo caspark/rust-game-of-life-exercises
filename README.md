@@ -59,7 +59,7 @@ Development tips
 
 Get faster type errors with `cargo check` (it skips actually building the resulting binary).
 
-Run tests with `cargo test` (there aren't any useful tests right now, but you could add some).
+Run tests with `cargo test` or `cargo test -p conway` (there aren't any useful tests right now, but you could add some).
 
 Format your code with `cargo fmt`.
 

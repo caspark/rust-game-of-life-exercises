@@ -8,20 +8,20 @@ use crate::game_of_life::GameOfLife;
 ///
 /// You can start off your own implementation by copy-pasting this.
 #[derive(Clone, Debug)]
-pub struct BrokenGame {
+pub struct GameOfLiveBroken {
     cell_state: bool,
 }
 
-impl BrokenGame {
+impl GameOfLiveBroken {
     // note `new` is just a regular function - there's no such thing as a "constructor"
-    pub fn new(game_width: usize, game_height: usize) -> BrokenGame {
+    pub fn new(game_width: usize, game_height: usize) -> GameOfLiveBroken {
         assert!(game_width > 0, "game width must be greater than 0");
         assert!(game_height > 0, "game height must be greater than 0");
-        BrokenGame { cell_state: true }
+        GameOfLiveBroken { cell_state: true }
     }
 }
 
-impl GameOfLife for BrokenGame {
+impl GameOfLife for GameOfLiveBroken {
     fn is_cell_alive(&self, _x: usize, _y: usize) -> Option<bool> {
         // Broken: this doesn't respect the x & y params at all.
         Some(self.cell_state)
@@ -53,12 +53,12 @@ impl GameOfLife for BrokenGame {
 
 #[cfg(test)] // this attr means the module below is only included when doing `cargo test`
 mod broken_game_test {
-    use super::{BrokenGame, GameOfLife};
+    use super::{GameOfLiveBroken, GameOfLife};
 
     /// A basic test to show you how to write tests in Rust, in case you want to write your own.
     #[test]
     fn broken_game_is_definitely_broken() {
-        let mut game = BrokenGame::new(10, 10);
+        let mut game = GameOfLiveBroken::new(10, 10);
         let cell_0_0_orig_val = game.is_cell_alive(0, 0);
 
         // change a totally different cell from 0,0

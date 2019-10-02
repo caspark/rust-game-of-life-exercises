@@ -5,7 +5,7 @@ use criterion::Criterion;
 use criterion::{BatchSize, BenchmarkId};
 
 //TODO import your implementation here
-use conway::{apply_default_pattern, BrokenGame, GameOfLife, GameOfLifeSolution};
+use conway::{apply_default_pattern, GameOfLiveBroken, GameOfLife, GameOfLifeSolution};
 
 const NUM_TICKS: u32 = 50;
 
@@ -14,7 +14,7 @@ fn bench_tick(c: &mut Criterion) {
 
     for &(w, h) in [(8, 8), (64, 64)].iter() {
         {
-            let mut game = BrokenGame::new(w, h);
+            let mut game = GameOfLiveBroken::new(w, h);
             apply_default_pattern(&mut game);
             group.bench_function(
                 BenchmarkId::new("Broken", format!("{}x{}", w, h)),

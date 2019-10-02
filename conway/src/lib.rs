@@ -8,7 +8,7 @@ mod game_of_life_solution;
 // details
 //TODO you'll need to export your implementation here
 pub use game_of_life::GameOfLife;
-pub use game_of_life_broken::BrokenGame;
+pub use game_of_life_broken::GameOfLiveBroken;
 pub use game_of_life_solution::GameOfLifeSolution;
 
 #[allow(unused_variables)] //TODO remove this lint once you're implementing this function

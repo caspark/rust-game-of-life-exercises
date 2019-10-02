@@ -56,7 +56,7 @@ pub fn main() {
 
     let mut game: Box<dyn conway::GameOfLife> = match sim.as_str() {
         SIM_SOLUTION => Box::new(conway::GameOfLifeSolution::new(game_width, game_height)),
-        SIM_BROKEN => Box::new(conway::BrokenGame::new(game_width, game_height)),
+        SIM_BROKEN => Box::new(conway::GameOfLiveBroken::new(game_width, game_height)),
         SIM_MINE => {
             //TODO reference your implementation here for the step 1 exercise :)
             unimplemented!("The {} simulation is not yet implemented!", SIM_MINE);
