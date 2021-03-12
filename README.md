@@ -15,8 +15,8 @@ Install Rust
 If you want IDE support:
 
 * IntelliJ IDEA (community edition) w/ the JetBrains Rust plugin: https://intellij-rust.github.io/
-* VSCode's Rust Language Server (RLS) extension: https://github.com/rust-lang/rls-vscode
-  * Or the upcoming Rust-Analyzer: https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer
+* VSCode's Rust-Analyzer extension: https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer
+  * Or the less feature-filled but more stable Rust addon: https://marketplace.visualstudio.com/items?itemName=rust-lang.rust
 * Sublime Text 3 ships with a 3 year old Rust plugin, so you can try https://github.com/rust-lang/rust-enhanced
 
 Repo Setup
@@ -66,7 +66,7 @@ Development tips
 
 Get faster type errors with `cargo check` (it skips actually building the resulting binary).
 
-Run tests with `cargo test` or `cargo test -p conway` (there aren't any useful tests right now, but you could add some; see https://doc.rust-lang.org/book/ch11-01-writing-tests.html or the shorter https://doc.rust-lang.org/rust-by-example/testing/unit_testing.html).
+Run tests with `cargo test -p conway` (there aren't any useful tests right now, but you could add some; see https://doc.rust-lang.org/book/ch11-01-writing-tests.html or the shorter https://doc.rust-lang.org/rust-by-example/testing/unit_testing.html).
 
 Format your code with `cargo fmt`.
 
@@ -79,7 +79,7 @@ You can also install the cargo-watch tool if you like continuous feedback in you
 Exercises
 ---------
 
-### Step 1 - Get the simulation working
+### Part 1 - Get the simulation working
 
 Goal: get started with Rust by implementing the game logic rules for Conway's Game of Life.
 
@@ -100,7 +100,8 @@ To get you started, there's a broken implementation of Game of Life which you ca
 
 Tips:
 
-* Look at `main.rs` and `game_of_life.rs`, to see how to implement and wire up your own implementation of the `GameOfLife` trait.
+* `conway\src\game_of_life_mine.rs` is provided as a scaffold implementation for you.
+* Read `conway\src\game_of_life.rs` to understand the interface you're implementing.
 * You can store an array of data using the [Vec data type](https://doc.rust-lang.org/std/vec/struct.Vec.html).
 
 Helpful doc links:
@@ -110,7 +111,7 @@ Helpful doc links:
 * [Rust's standard library docs](https://doc.rust-lang.org/std/index.html).
 * A full set of docs at [Learn Rust](https://www.rust-lang.org/learn).
 
-### Step 2 - Implement loading patterns from files
+### Part 2 - Implement loading patterns from files
 
 Goal: get more comfortable with Rust by implementing a basic file format parser.
 
@@ -152,7 +153,7 @@ You can also find far more patterns at http://www.conwaylife.com/wiki/Category:P
 
 Tip: You will probably get into error handling with `Some` (Rust's version of returning `null`) and `Result` (Rust's alternative to exceptions) types. The quick and dirty way to get at the contents of each is to call `unwrap()` or `expect()` (which will panic your app if there is no content); read [the book's error handling section](https://doc.rust-lang.org/book/ch09-00-error-handling.html) for more info.
 
-### Step 3 - Performance tuning
+### Part 3 - Performance tuning
 
 Goal: learn about performance tuning by competing to see who can build the fastest implementation of the game of life update step.
 

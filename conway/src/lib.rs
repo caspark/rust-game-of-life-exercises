@@ -1,21 +1,21 @@
 use std::path::Path;
 
 // declare what modules this library provides
-//TODO you'll need to add a module for your implementation here
 mod game_of_life;
 mod game_of_life_broken;
+mod game_of_life_mine;
 mod game_of_life_solution;
 
 // export bits of relevant modules to avoid consuming crates depending on internal implementation
 // details
-//TODO you'll need to export your implementation here
 pub use game_of_life::GameOfLife;
 pub use game_of_life_broken::GameOfLiveBroken;
+pub use game_of_life_mine::GameOfLifeMine;
 pub use game_of_life_solution::GameOfLifeSolution;
 
-#[allow(unused_variables)] //TODO remove this lint once you're implementing this function
+#[allow(unused_variables)] //TODO remove this lint once you're implementing this function for part 2
 pub fn load_and_apply_pattern(game: &mut dyn game_of_life::GameOfLife, pattern_filename: &Path) {
-    //TODO fill this out for the step 2 exercise :)
+    //TODO fill this out for the part 2 exercise :)
     unimplemented!(
         "Need to implement loading pattern from file {:?}",
         &pattern_filename

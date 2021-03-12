@@ -1,4 +1,4 @@
-//! This a solution to Step 1 - you shouldn't look at this!
+//! This a solution to Part 1 - you shouldn't look at this!
 //!
 //!
 //!
@@ -91,6 +91,9 @@
 //! It's based on some example code for SDL with some modifications to make it easier to understand;
 //! it's not optimized for speed.
 //!
+//!
+//! (In case you're wondering, `//!` is how you do module level documentation in Rust)
+
 
 use crate::game_of_life::GameOfLife;
 

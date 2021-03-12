@@ -98,7 +98,7 @@ pub fn main() {
             Box::new(conway::GameOfLifeSolution::new(config.width, config.height))
         }
         Implementation::Mine => {
-            //TODO reference your implementation here for the step 1 exercise :)
+            //TODO reference your implementation here for the Part 1 exercise :)
             // the `unimplemented!` macro explodes the app just like the `panic!` macro - the only
             // difference is that it stands out for grepping and in code review as being unfinished
             // code!
