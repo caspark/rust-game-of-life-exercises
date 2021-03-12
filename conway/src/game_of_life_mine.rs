@@ -1,4 +1,4 @@
-use crate::game_of_life::GameOfLife; // TODO youo should read the docs for this - it's the interface you will implement
+use crate::game_of_life::GameOfLife; // TODO you should read the docs for this - it's the interface you will implement
 
 /// Your implementation of GameOfLife, which you should implement.
 ///
