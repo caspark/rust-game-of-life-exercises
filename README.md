@@ -7,15 +7,16 @@ Install Rust
 ------------
 
     # install Rust by following the prompts
-    curl https://sh.rustup.rs -sSf | sh
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
     # install the Rust Language Server (for IDE assistance), Rust code formatter, and the stdlib source
-    rustup component add rls rustfmt rust-src
+    rustup component add rls rustfmt rust-src rust-analysis
 
 If you want IDE support:
 
 * IntelliJ IDEA (community edition) w/ the JetBrains Rust plugin: https://intellij-rust.github.io/
 * VSCode's Rust Language Server (RLS) extension: https://github.com/rust-lang/rls-vscode
+  * Or the upcoming Rust-Analyzer: https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer
 * Sublime Text 3 ships with a 3 year old Rust plugin, so you can try https://github.com/rust-lang/rust-enhanced
 
 Repo Setup
@@ -65,7 +66,7 @@ Development tips
 
 Get faster type errors with `cargo check` (it skips actually building the resulting binary).
 
-Run tests with `cargo test` or `cargo test -p conway` (there aren't any useful tests right now, but you could add some).
+Run tests with `cargo test` or `cargo test -p conway` (there aren't any useful tests right now, but you could add some; see https://doc.rust-lang.org/book/ch11-01-writing-tests.html or the shorter https://doc.rust-lang.org/rust-by-example/testing/unit_testing.html).
 
 Format your code with `cargo fmt`.
 
