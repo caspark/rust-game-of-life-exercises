@@ -4,7 +4,7 @@ use crate::game_of_life::GameOfLife; // TODO youo should read the docs for this 
 ///
 /// It's scattered with various TODO markers that you should implement or deal with, such as this one:
 ///
-/// TODO take a look at game_of_life_broken.rs
+/// TODO take a look at conway/src/game_of_life_broken.rs
 /// (it shows a possible implementation of the GameOfLife trait - albeit a broken one - and may help you with syntax problems)
 #[derive(Clone, Debug)]
 pub struct GameOfLifeMine {

@@ -100,8 +100,8 @@ To get you started, there's a broken implementation of Game of Life which you ca
 
 Tips:
 
-* `conway\src\game_of_life_mine.rs` is provided as a scaffold implementation for you.
-* Read `conway\src\game_of_life.rs` to understand the interface you're implementing.
+* `conway/src/game_of_life_mine.rs` is provided as a scaffold implementation for you.
+* Read `conway/src/game_of_life.rs` to understand the interface you're implementing.
 * You can store an array of data using the [Vec data type](https://doc.rust-lang.org/std/vec/struct.Vec.html).
 
 Helpful doc links:
