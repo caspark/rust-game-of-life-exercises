@@ -95,6 +95,7 @@ pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut last_tick_time = SystemTime::now();
+    let mut last_cell_toggled: Option<(usize, usize)>= None;
     'running: loop {
         // get the inputs here
         for event in event_pump.poll_iter() {
@@ -128,6 +129,28 @@ pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
                         cell_x, cell_y, x, y
                     );
                     game.toggle_cell(cell_x, cell_y);
+                    last_cell_toggled = Some((cell_x, cell_y));
+                }
+                Event::MouseMotion {
+                    x, y, mousestate, ..
+                } => {
+                    if mousestate.is_mouse_button_pressed(MouseButton::Left) {
+                        let cell_x = (x / options.square_size as i32) as usize;
+                        let cell_y = (y / options.square_size as i32) as usize;
+
+                        // When toggling cells via mouse move, it's easy to revert a toggle by moving
+                        // the mouse slowly within the same cell, which is not ever what you want.
+                        // So we track the last cell that was toggled and don't allow it to be
+                        // toggled via mouse move again.
+                        if Some((cell_x, cell_y)) != last_cell_toggled {
+                            println!(
+                                "Attempting to toggle cell at {}, {} due to mouse motion at {}, {}",
+                                cell_x, cell_y, x, y
+                            );
+                            game.toggle_cell(cell_x, cell_y);
+                            last_cell_toggled = Some((cell_x, cell_y));
+                        }
+                    }
                 }
                 _ => {}
             }
