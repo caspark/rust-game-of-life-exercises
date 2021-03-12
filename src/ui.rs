@@ -28,6 +28,9 @@ pub struct UiOptions {
     /// Should be a power of 2; 8 or 16 are suitable for small to medium patterns.
     /// Options lower than 4 will result in rendering artifacts, so that's disallowed.
     pub square_size: u8,
+
+    /// Should the game start pause, or be running immediately as soon as the event loop starts?
+    pub start_paused: bool,
 }
 
 impl UiOptions {
@@ -81,6 +84,14 @@ pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
 
     let (playing_texture, paused_texture) =
         generate_textures(&mut canvas, &texture_creator, options.square_size as u32);
+
+    println!("Starting SDL event loop...", );
+    if options.start_paused {
+        println!("NB: game will be paused initially - hit Space to start simulation");
+    } else {
+        sim.toggle_state(); // start simulation
+        println!("(hit Space to pause/unpause simulation; click cells to toggle them)");
+    }
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut last_tick_time = SystemTime::now();

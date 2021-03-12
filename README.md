@@ -98,7 +98,12 @@ To get you started, there's a broken implementation of Game of Life which you ca
 
     cargo run -- broken
 
-Tips:
+You can also start the simulation in a paused state, which is useful for setting up test states (by
+toggling cells on/off using left mouse click):
+
+    cargo run -- mine --paused
+
+More getting started tips:
 
 * `conway/src/game_of_life_mine.rs` is provided as a scaffold implementation for you.
 * Read `conway/src/game_of_life.rs` to understand the interface you're implementing.

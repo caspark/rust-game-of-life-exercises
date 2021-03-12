@@ -62,6 +62,10 @@ struct Opt {
     /// How big (in pixels) should each cell be? Value must be between 1 and 32 (inclusive).
     #[structopt(long, default_value = "16")]
     cell_size: u8,
+
+    /// Should the simulation start paused?
+    #[structopt(long)]
+    paused: bool,
 }
 
 pub fn main() {
@@ -128,6 +132,7 @@ pub fn main() {
         &ui::UiOptions {
             millis_between_ticks: (1000.0 / (config.fps as f32)) as u64,
             square_size: config.cell_size,
+            start_paused: config.paused,
         },
     )
 }
