@@ -94,7 +94,6 @@
 //!
 //! (In case you're wondering, `//!` is how you do module level documentation in Rust)
 
-
 use crate::game_of_life::GameOfLife;
 
 #[derive(Clone, Debug)]
