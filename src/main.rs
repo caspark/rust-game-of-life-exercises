@@ -107,7 +107,9 @@ pub fn main() {
             // difference is that it stands out for grepping and in code review as being unfinished
             // code!
             unimplemented!(
-                "The {:?} simulation is not yet implemented!",
+                "The {:?} simulation is not yet implemented! Use the stack trace you see in this \
+error message to find this bit of code and replace it with an instantiation of \
+conway::GameOfLifeMine - good luck!",
                 Implementation::Mine
             );
         }
