@@ -85,7 +85,7 @@ pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
     let (playing_texture, paused_texture) =
         generate_textures(&mut canvas, &texture_creator, options.square_size as u32);
 
-    println!("Starting SDL event loop...", );
+    println!("Starting SDL event loop...",);
     if options.start_paused {
         println!("NB: game will be paused initially - hit Space to start simulation");
     } else {
@@ -95,7 +95,7 @@ pub fn run_game(mut game: Box<dyn GameOfLife>, options: &UiOptions) {
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut last_tick_time = SystemTime::now();
-    let mut last_cell_toggled: Option<(usize, usize)>= None;
+    let mut last_cell_toggled: Option<(usize, usize)> = None;
     'running: loop {
         // get the inputs here
         for event in event_pump.poll_iter() {
@@ -241,7 +241,7 @@ fn generate_textures<'a>(
     enum TextureColor {
         Yellow,
         White,
-    };
+    }
     let mut square_texture1: Texture = texture_creator
         .create_texture_target(None, square_size, square_size)
         .unwrap();
