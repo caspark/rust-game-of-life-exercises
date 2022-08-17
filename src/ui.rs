@@ -5,7 +5,6 @@
 //! But you probably don't need to change it, unless you want to extend the UI with new behavior.
 
 use conway::GameOfLife;
-use sdl2;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::mouse::MouseButton;

@@ -162,12 +162,20 @@ impl GameOfLife for GameOfLifeSolution {
                     }
                 }
             }
-            if count > 3 || count < 2 {
+
+            // prevent clippy from complaining about not using a range check on the next if condition
+            #[allow(clippy::manual_range_contains)]
+            if count < 2 || count > 3 {
+                // Any live cell with fewer than two live neighbors dies, as if by under population.
+                // &
+                // Any live cell with more than three live neighbors dies, as if by overpopulation.
                 *square = false;
-            } else if count == 3 {
+            } else if *square && (count == 2 || count == 3) {
+                // Any live cell with two or three live neighbors lives on to the next generation.
+                // (*square is already true so nothing to do here)
+            } else if !*square && count == 2 {
+                // Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
                 *square = true;
-            } else if count == 2 {
-                *square = *square;
             }
         }
         self.playground = new_playground;
