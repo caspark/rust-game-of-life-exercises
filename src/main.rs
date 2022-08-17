@@ -1,6 +1,6 @@
 // import some types and macros we want to use
-use clap::arg_enum;
 use std::path::PathBuf;
+use structopt::clap::arg_enum;
 use structopt::StructOpt;
 
 // declare the modules that the Rust compiler should look for, which also imports them

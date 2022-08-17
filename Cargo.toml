@@ -10,7 +10,6 @@ edition = "2018"
 conway = { path = "conway" }
 sdl2 = "*"
 structopt = "*"
-clap = "*"
 
 [dev-dependencies]
 criterion = "0.3"
