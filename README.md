@@ -16,7 +16,6 @@ If you want IDE support:
 
 * IntelliJ IDEA (community edition) w/ the JetBrains Rust plugin: https://intellij-rust.github.io/
 * VSCode's Rust-Analyzer extension: https://marketplace.visualstudio.com/items?itemName=matklad.rust-analyzer
-  * Or the less feature-filled but more stable Rust addon: https://marketplace.visualstudio.com/items?itemName=rust-lang.rust
 * Sublime Text 3 ships with a 3 year old Rust plugin, so you can try https://github.com/rust-lang/rust-enhanced
 
 Repo Setup
