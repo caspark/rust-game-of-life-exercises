@@ -2,7 +2,7 @@
 name = "game-of-life"
 version = "0.3.0"
 authors = ["Caspar Krieger <git@asparck.com>"]
-edition = "2018"
+edition = "2021"
 
 [workspace]
 
