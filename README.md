@@ -39,7 +39,7 @@ Then set up the header locations by adding `/usr/local/lib` to your path (you ca
 
 ### Windows
 
-SDL 2.0.10 libraries are provided in the `gnu-mingw` and `msvc` directories; combined with the power of the `build.rs` script, they should "just work".
+SDL 2.0.22-devel libraries are provided in the `gnu-mingw` and `msvc` directories; combined with the power of the `build.rs` script, they should "just work".
 
 Running
 -------
