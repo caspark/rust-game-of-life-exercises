@@ -173,7 +173,7 @@ impl GameOfLife for GameOfLifeSolution {
             } else if *square && (count == 2 || count == 3) {
                 // Any live cell with two or three live neighbors lives on to the next generation.
                 // (*square is already true so nothing to do here)
-            } else if !*square && count == 2 {
+            } else if !*square && count == 3 {
                 // Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
                 *square = true;
             }
